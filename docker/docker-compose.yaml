@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+
+  webserver:
+    container_name: lego
+    build:
+      context: ..
+    image: lego:latest
+    ports:
+      - "${HTTP_PORT}:80"
+    volumes:
+      # mount application dir
+      - "../:/var/www/html:cached"
+      # var directory should stay in container
+      - "/var/www/html/var"
+    environment:
+      - XDEBUG_CONFIG="idekey=${XDEBUG_IDEKEY} remote_enable=${XDEBUG_REMOTE_ENABLE} remote_host=${XDEBUG_REMOTE_HOST} remote_port=${XDEBUG_REMOTE_PORT}"
+      - PHP_IDE_CONFIG=serverName=${PHP_IDE_SERVER_NAME}
+    entrypoint: ""
