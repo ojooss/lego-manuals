@@ -153,6 +153,9 @@
             "config/packages/sensio_framework_extra.yaml"
         ]
     },
+    "spatie/pdf-to-image": {
+        "version": "2.1.0"
+    },
     "symfony/asset": {
         "version": "v5.1.9"
     },

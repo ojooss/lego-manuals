@@ -31,8 +31,15 @@ RUN a2enmod headers && \
     a2enmod proxy_http
 COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
 
+
+# imagemagick for pdf handling
 RUN apt-get update && \
-    apt-get install -y imagemagick ghostscript  && \
-    apt-get clean
+    apt-get install -y imagemagick ghostscript \
+                       libmagickwand-dev --no-install-recommends && \
+    apt-get clean && \
+    printf "\n" | pecl install imagick && \
+    docker-php-ext-enable imagick
+ADD docker/ImageMagick-6-Policy.xml /etc/ImageMagick-6/policy.xml
+
 
 CMD ["apache2-foreground"]

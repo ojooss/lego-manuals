@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "911dbe6fdb72f2f176495d29a0cbce19",
+    "content-hash": "68aaae5a20248d2cbd540922332b6aed",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -2213,6 +2213,62 @@
                 "controllers"
             ],
             "time": "2020-08-25T19:10:18+00:00"
+        },
+        {
+            "name": "spatie/pdf-to-image",
+            "version": "2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/pdf-to-image.git",
+                "reference": "ea81a2d5f4fb0ca9f4c4fc0d4f8813135e993b2d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/pdf-to-image/zipball/ea81a2d5f4fb0ca9f4c4fc0d4f8813135e993b2d",
+                "reference": "ea81a2d5f4fb0ca9f4c4fc0d4f8813135e993b2d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-imagick": "*",
+                "php": "^7.2|^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.0|^9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\PdfToImage\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Convert a pdf to an image",
+            "homepage": "https://github.com/spatie/pdf-to-image",
+            "keywords": [
+                "convert",
+                "image",
+                "pdf",
+                "pdf-to-image",
+                "spatie"
+            ],
+            "funding": [
+                {
+                    "url": "https://www.patreon.com/spatie",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2020-11-12T11:27:19+00:00"
         },
         {
             "name": "symfony/asset",
