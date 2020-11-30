@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="d-flex align-content-start flex-wrap flex-row">
+    {% for Set in Sets %}
+            {% for Manual in Set.getManuals() %}
+        <div class="manual-box">
+            <div class="manual-title">
+                {% if loop.first %}{{ Set.getName() }} {{ Set.getNumber() }}
+                {% else %}&nbsp;
+                {% endif %}
+            </div>
+            <div class="manual-pic">
+                <a href="/data/{{ Manual.getFilename() }}">
+                <img src="/data/{{ Manual.getCovername() }}" />
+                </a>
+            </div>
+        </div>
+            {%  endfor %}
+    {% endfor %}
+    </div>
+
+{% endblock %}

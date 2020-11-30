@@ -1,0 +1,38 @@
+.navbar {
+    background-color: rgb(255, 207, 0);
+    height: 100px;
+}
+
+.logo {
+    margin-bottom: 10px;
+}
+
+.searchbar {
+    right: 10px;
+    position: absolute;
+}
+
+main {
+    margin-top: 110px;
+}
+
+
+.manual-title {
+    font-weight: bold;
+    height: 3em;
+    line-height: 1.5em;
+    overflow: hidden;
+    margin-bottom: 3px;
+}
+.manual-box {
+    width: 33% !important;
+    padding: 5px;
+}
+.manual-pic {
+    vertical-align: top;
+    max-width: inherit;
+}
+.manual-pic img {
+    width:100%;
+    object-fit: contain;
+}
