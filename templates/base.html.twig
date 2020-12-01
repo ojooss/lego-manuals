@@ -6,12 +6,15 @@
     {% block stylesheets %}{% endblock %}
     <!-- Bootstrap core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Load icon library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- customise -->
     <link href="/css/app.css" rel="stylesheet">
 </head>
 <body>
 
 <nav class="navbar navbar-expand-md navbar-dark fixed-top">
-    <div class="display-4">Finns <img id="logo" src="/logo.jpeg" /> Anleitungen</div>
+    <div class="display-4">Finns <a href="/"><img id="logo" src="/logo.jpeg" /></a> Anleitungen</div>
 {#
     <a class="navbar-brand" href="#">Navbar</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
@@ -43,7 +46,24 @@
 #}
     <div class="searchbar">
         <form class="form-inline">
-            <input class="form-control mr-sm-2" type="text" placeholder="Suche" aria-label="Suche">
+            <script type="text/javascript">
+                function filterManuals()
+                {
+                    let queryString = document.getElementById('filter').value;
+                    let boxes = document.getElementsByClassName("manual-box");
+                    for(let i=0; i<boxes.length; i++)
+                    {
+                        let box = boxes[i];
+                        let caption = box.getAttribute('data-filter');
+                        if (queryString.length < 3 ||   caption.search(new RegExp(queryString, "i")) > -1  ) {
+                            box.style.display = 'block';
+                        } else {
+                            box.style.display = 'none';
+                        }
+                    }
+                }
+            </script>
+            <input id="filter" class="form-control mr-sm-2" type="text" placeholder="Suche" aria-label="Suche" onkeyup="filterManuals();">
         </form>
     </div>
 </nav>
@@ -58,7 +78,10 @@
 </main>
 
 <footer class="container">
-    <p>&copy; Oliver Joo&szlig;</p>
+    <div class="row">
+        <div class="col-6"><p>&copy; Oliver Joo&szlig;</p></div>
+        <div class="col-6"><p style="text-align: right"><a href="{{ path('import') }}">weitere Sets hinzuf&uuml;gen >></a></p></div>
+    </div>
 </footer>
 
 </body>
