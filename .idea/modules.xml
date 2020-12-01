@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/my-lego-manuals.iml" filepath="$PROJECT_DIR$/.idea/my-lego-manuals.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/lego-manuals.iml" filepath="$PROJECT_DIR$/.idea/lego-manuals.iml" />
     </modules>
   </component>
 </project>
