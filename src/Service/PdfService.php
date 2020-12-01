@@ -43,12 +43,16 @@ class PdfService
      */
     public function extractCover($pathToPdf)
     {
+        if (!file_exists($pathToPdf)) {
+            $pathToPdf = $this->getDataDir() . '/' . $pathToPdf;
+        }
+
         $pdf = new PdfImager($pathToPdf);
         $pdf->setCompressionQuality(90);
         $imgName = basename($pathToPdf).'.jpg';
         if (false == $pdf->saveImage($this->getDataDir() . '/' . $imgName)) {
             throw new RuntimeException('Can not extract cover: ' . $imgName);
-        };
+        }
 
         $im = new Imagick($this->getDataDir() . '/' . $imgName);
         $im->scaleImage(300, 0);
