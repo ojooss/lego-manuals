@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\SetRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -39,10 +40,19 @@ class Set
      * @ORM\OneToMany(
      *      targetEntity="Manual",
      *      mappedBy="set",
+     *      cascade={"persist"},
      *      orphanRemoval=true
      * )
      */
     private Collection $manuals;
+
+    /**
+     * Set constructor.
+     */
+    public function __construct()
+    {
+        $this->manuals = new ArrayCollection();
+    }
 
     /**
      * @return int|null
@@ -99,7 +109,9 @@ class Set
      */
     public function addManual(Manual $manual): self
     {
-        $this->manuals[] = $manual;
+        $manual->setSet($this);
+
+        $this->manuals->add($manual);
 
         return $this;
     }
@@ -125,6 +137,14 @@ class Set
     public function getManuals(): Collection
     {
         return $this->manuals;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->getNumber().' '.$this->getName() . ' (' . count($this->manuals) . ' Dokumente)';
     }
 
 }
