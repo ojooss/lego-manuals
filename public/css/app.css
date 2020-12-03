@@ -11,6 +11,16 @@
     right: 10px;
     position: absolute;
 }
+.searchbar #filter {
+    width: 200px;
+}
+.searchbar .reset {
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    cursor: pointer;
+    color: #abafb3; /* #4e555b; */
+}
 
 main {
     margin-top: 110px;
@@ -23,10 +33,14 @@ main {
     line-height: 1.5em;
     overflow: hidden;
     margin-bottom: 3px;
+    display: table-cell;
+    vertical-align: bottom;
+    padding-bottom: 5px;
 }
 .manual-box {
     width: 33% !important;
     padding: 5px;
+    margin-bottom: 15px;
 }
 .manual-pic {
     vertical-align: top;
