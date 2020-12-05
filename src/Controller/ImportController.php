@@ -74,29 +74,22 @@ class ImportController extends AbstractController
             $itemsNumber = $setRepository->findBy(['number' => $setNumber]);
             $setName = $form->get('name')->getData();
             $itemsName = $setRepository->findBy(['name' => $setName]);
-            if (!empty($itemsNumber) || !empty($itemsName)) {
+            if (empty($itemsNumber) && empty($itemsName)) {
+                // download manuals
+                /** @var Manual $manual */
+                foreach ($set->getManuals() as $manual) {
+                    $pdfFile = $this->downloadService->downloadManualFile($manual->getUrl());
+                    $manual->setFilename($pdfFile);
+                    $jpgFile = $this->pdfService->extractCover($pdfFile);
+                    $manual->setCovername($jpgFile);
+                }
+                $this->entityManager->persist($set);
+                $this->entityManager->flush();
+                // goto index
+                return $this->redirectToRoute('index');
+            } else {
                 $form->addError(new FormError("Das Set '#".$setNumber." ".$setName."' existiert bereits"));
             }
-
-dump($form->isValid());
-dump($form->getErrors());
-
-
-            // download
-            /** @var Manual $manual */
-/*
-            foreach($set->getManuals() as $manual) {
-                $pdfFile = $this->downloadService->downloadManualFile($manual->getUrl());
-                $manual->setFilename($pdfFile);
-                $jpgFile = $this->pdfService->extractCover($pdfFile);
-                $manual->setCovername($jpgFile);
-            }
-
-            $this->entityManager->persist($set);
-            $this->entityManager->flush();
-
-            return $this->redirectToRoute('index');
-*/
         }
 
         return $this->render('import/index.html.twig', [
