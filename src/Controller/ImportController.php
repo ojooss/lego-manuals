@@ -62,38 +62,41 @@ class ImportController extends AbstractController
         $set = new Set();
         $manual = new Manual();
         $set->addManual($manual);
-
         $form = $this->createForm(SetFormType::class, $set);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
 
-            // check for duplicates
-            /** @var SetRepository $setRepository */
-            $setRepository = $this->entityManager->getRepository(Set::class);
-            $setNumber = $form->get('number')->getData();
-            $itemsNumber = $setRepository->findBy(['number' => $setNumber]);
-            $setName = $form->get('name')->getData();
-            $itemsName = $setRepository->findBy(['name' => $setName]);
-            if (empty($itemsNumber) && empty($itemsName)) {
-                // download manuals
-                /** @var Manual $manual */
-                foreach ($set->getManuals() as $manual) {
-                    $pdfFile = $this->downloadService->downloadManualFile($manual->getUrl());
-                    $manual->setFilename($pdfFile);
-                    $jpgFile = $this->pdfService->extractCover($pdfFile);
-                    $manual->setCovername($jpgFile);
+        try {
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+
+                // check for duplicates
+                /** @var SetRepository $setRepository */
+                $setRepository = $this->entityManager->getRepository(Set::class);
+                $setNumber = ''.$form->get('number')->getData();
+                $setName = ''.$form->get('name')->getData();
+                if (!$setRepository->doesAlreadyExist($setNumber, $setName)) {
+                    // download manuals
+                    /** @var Manual $manual */
+                    foreach ($set->getManuals() as $manual) {
+                        $pdfFile = $this->downloadService->downloadManualFile($manual->getUrl());
+                        $manual->setFilename($pdfFile);
+                        $jpgFile = $this->pdfService->extractCover($pdfFile);
+                        $manual->setCovername($jpgFile);
+                    }
+                    $this->entityManager->persist($set);
+                    $this->entityManager->flush();
+                    // goto index
+                    return $this->redirectToRoute('index');
+                } else {
+                    $form->addError(new FormError("Das Set '#" . $setNumber . " " . $setName . "' existiert bereits"));
                 }
-                $this->entityManager->persist($set);
-                $this->entityManager->flush();
-                // goto index
-                return $this->redirectToRoute('index');
-            } else {
-                $form->addError(new FormError("Das Set '#".$setNumber." ".$setName."' existiert bereits"));
             }
+
+        } catch (\Exception $e) {
+            $form->addError($e->getMessage());
         }
 
         return $this->render('import/index.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
