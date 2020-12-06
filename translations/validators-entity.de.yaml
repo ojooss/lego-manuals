@@ -1,0 +1,13 @@
+set:
+  number:
+    not_blank: 'Das Feld darf nicht leer sein'
+    number: 'Es werden nur Zahlen akzeptiert'
+
+manual:
+  filename:
+    not_blank: 'Das Feld darf nicht leer sein'
+  covername:
+    not_blank: 'Das Feld darf nicht leer sein'
+  url:
+    not_blank: 'Das Feld darf nicht leer sein'
+    url: 'Ungültiges URL-Format'
