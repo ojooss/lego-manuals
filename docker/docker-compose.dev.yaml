@@ -4,8 +4,9 @@ services:
 
   webserver:
     environment:
-      - XDEBUG_CONFIG="idekey=${XDEBUG_IDEKEY} remote_enable=${XDEBUG_REMOTE_ENABLE} remote_host=${XDEBUG_REMOTE_HOST} remote_port=${XDEBUG_REMOTE_PORT}"
-      - PHP_IDE_CONFIG=serverName=${PHP_IDE_SERVER_NAME}
+      XDEBUG_CONFIG: "idekey=${XDEBUG_IDEKEY} remote_enable=${XDEBUG_REMOTE_ENABLE} remote_host=${XDEBUG_REMOTE_HOST} remote_port=${XDEBUG_REMOTE_PORT}"
+      PHP_IDE_CONFIG: "serverName=${PHP_IDE_SERVER_NAME}"
+      APP_ENV: dev
     volumes:
       # mount application dir
       - "../:/var/www/html:cached"

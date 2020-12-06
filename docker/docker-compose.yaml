@@ -12,4 +12,5 @@ services:
     volumes:
       - "../public/data:/var/www/html/public/data"
     environment:
+      APP_ENV: prod
       APP_DEFAULT_PORT: ${APP_DEFAULT_PORT}
