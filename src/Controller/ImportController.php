@@ -92,7 +92,8 @@ class ImportController extends AbstractController
             }
 
         } catch (\Exception $e) {
-            $form->addError($e->getMessage());
+            $this->addFlash('error', $e->getMessage());
+            throw $e;
         }
 
         return $this->render('import/index.html.twig', [
