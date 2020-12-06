@@ -16,10 +16,13 @@
 }
 .searchbar .reset {
     position: absolute;
-    top: 5px;
+    top: 11px;
     right: 15px;
     cursor: pointer;
     color: #abafb3; /* #4e555b; */
+}
+.investigator {
+    padding-right: 5px;
 }
 
 main {
