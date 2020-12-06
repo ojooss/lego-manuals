@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ManualRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ManualRepository::class)
@@ -19,16 +20,20 @@ class Manual
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="manual.filename.not_blank")
      */
     private string $filename;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="manual.covername.not_blank")
      */
     private string $covername;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank(message="manual.url.not_blank")
+     * @Assert\Url(message="manual.url.url")
      */
     private ?string $url;
 
