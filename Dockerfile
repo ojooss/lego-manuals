@@ -42,4 +42,11 @@ RUN apt-get update && \
 ADD docker/ImageMagick-6-Policy.xml /etc/ImageMagick-6/policy.xml
 
 
+# add and init application
+COPY . /var/www/html
+RUN composer install && touch /var/www/html/composer.done
+RUN chown -R www-data:www-data /var/www/html
+
+
+# start webserver
 CMD ["apache2-foreground"]

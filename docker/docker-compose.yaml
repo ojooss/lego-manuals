@@ -8,13 +8,8 @@ services:
       context: ..
     image: lego:latest
     ports:
-      - "${HTTP_PORT}:80"
+      - "${APP_DEFAULT_PORT}:80"
     volumes:
-      # mount application dir
-      - "../:/var/www/html:cached"
-      # var directory should stay in container
-      - "/var/www/html/var"
+      - "../public/data:/var/www/html/public/data"
     environment:
-      - XDEBUG_CONFIG="idekey=${XDEBUG_IDEKEY} remote_enable=${XDEBUG_REMOTE_ENABLE} remote_host=${XDEBUG_REMOTE_HOST} remote_port=${XDEBUG_REMOTE_PORT}"
-      - PHP_IDE_CONFIG=serverName=${PHP_IDE_SERVER_NAME}
-    entrypoint: ""
+      APP_DEFAULT_PORT: ${APP_DEFAULT_PORT}
