@@ -98,6 +98,17 @@
 <main role="main">
 
     <div class="container">
+
+        {% for label, messages in app.flashes %}
+            {% set class = 'alert-' ~ label %}
+        {% if label == 'error' %}{% set class = 'alert-danger' %}{% endif %}
+            {% for message in messages %}
+                <div class="alert {{ class }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
         {% block body %}{% endblock %}
         <hr>
     </div> <!-- /container -->
