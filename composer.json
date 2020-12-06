@@ -2,42 +2,42 @@
     "type": "project",
     "license": "proprietary",
     "require": {
-        "php": ">=7.2.5",
+        "php": ">=7.4",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-imagick": "*",
         "composer/package-versions-deprecated": "1.11.99.1",
-        "doctrine/annotations": "^1.0",
+        "doctrine/annotations": "^1.11",
         "doctrine/doctrine-bundle": "^2.2",
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.7",
         "phpdocumentor/reflection-docblock": "^5.2",
         "sensio/framework-extra-bundle": "^5.1",
         "spatie/pdf-to-image": "^2.1",
-        "symfony/asset": "5.1.*",
-        "symfony/console": "5.1.*",
-        "symfony/dotenv": "5.1.*",
-        "symfony/expression-language": "5.1.*",
+        "symfony/asset": "5.*",
+        "symfony/console": "5.*",
+        "symfony/dotenv": "5.*",
+        "symfony/expression-language": "5.*",
         "symfony/flex": "^1.3.1",
-        "symfony/form": "5.1.*",
-        "symfony/framework-bundle": "5.1.*",
-        "symfony/http-client": "5.1.*",
-        "symfony/intl": "5.1.*",
-        "symfony/mailer": "5.1.*",
-        "symfony/mime": "5.1.*",
+        "symfony/form": "5.*",
+        "symfony/framework-bundle": "5.*",
+        "symfony/http-client": "5.*",
+        "symfony/intl": "5.*",
+        "symfony/mailer": "5.*",
+        "symfony/mime": "5.*",
         "symfony/monolog-bundle": "^3.1",
-        "symfony/notifier": "5.1.*",
-        "symfony/process": "5.1.*",
-        "symfony/property-access": "5.1.*",
-        "symfony/property-info": "5.1.*",
-        "symfony/security-bundle": "5.1.*",
-        "symfony/serializer": "5.1.*",
-        "symfony/string": "5.1.*",
-        "symfony/translation": "5.1.*",
+        "symfony/notifier": "5.*",
+        "symfony/process": "5.*",
+        "symfony/property-access": "5.*",
+        "symfony/property-info": "5.*",
+        "symfony/security-bundle": "5.*",
+        "symfony/serializer": "5.*",
+        "symfony/string": "5.*",
+        "symfony/translation": "5.*",
         "symfony/twig-bundle": "^5.1",
-        "symfony/validator": "5.1.*",
-        "symfony/web-link": "5.1.*",
-        "symfony/yaml": "5.1.*",
+        "symfony/validator": "5.*",
+        "symfony/web-link": "5.*",
+        "symfony/yaml": "5.*",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0"
     },
@@ -91,6 +91,9 @@
         ],
         "fixtures": [
             "php bin/console doctrine:fixtures:load  --no-interaction"
+        ],
+        "translations": [
+            "php bin/console translation:update --force --output-format=yaml  --sort=asc --as-tree=3 de"
         ]
     },
     "conflict": {
@@ -99,7 +102,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "5.1.*"
+            "require": "5.*"
         }
     }
 }
