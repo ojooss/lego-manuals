@@ -48,7 +48,7 @@ class DownloadService
             throw new RuntimeException('File is not a PDF: ' . $fileName);
         }
 
-        $fileName = preg_replace('/[^a-z0-9]/', '', strtolower($fileName));
+        $fileName = preg_replace('/[^a-z0-9\.]/', '', strtolower($fileName));
         $localFile = $this->getDataDir() . '/' . $fileName;
         if (false == file_put_contents($localFile, $fileContent)) {
             throw new RuntimeException('Can not save ' . $fileName);

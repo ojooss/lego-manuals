@@ -45,7 +45,7 @@ class Set
      * @ORM\OneToMany(
      *      targetEntity="Manual",
      *      mappedBy="set",
-     *      cascade={"persist"},
+     *      cascade={"persist", "remove"},
      *      orphanRemoval=true
      * )
      */
