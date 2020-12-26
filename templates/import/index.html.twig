@@ -2,6 +2,11 @@
 
 {% block body %}
 
+    <div id="waiting-cover">&nbsp;</div>
+    <div id="waiting-container">
+        <img id="waiting-img" src="{{ asset('img/loading.gif') }}" />
+    </div>
+
     <div id="research-container">
         <script type="text/javascript">
             function updateNumber()
@@ -54,6 +59,18 @@
             // add a new tag form (see next code block)
             addFormToCollection($collectionHolderClass);
         })
+
+        $( '#set_form' ).submit(function( event ) {
+            $('#waiting-cover').show();
+            $('#waiting-container').show("slow");
+        });
+        $(document).keyup(function(e) {
+            if (e.key === "Escape") { // escape key maps to keycode `27`
+                $('#waiting-cover').hide( 1000 );
+                $('#waiting-container').hide( 1000 );
+            }
+        });
+
     });
 
     function addFormToCollection($collectionHolderClass) {

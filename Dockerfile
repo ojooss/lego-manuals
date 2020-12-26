@@ -32,6 +32,10 @@ RUN a2enmod headers && \
 COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
 
 
+# php
+COPY docker/php.ini /usr/local/etc/php/conf.d/myphp.ini
+
+
 # imagemagick for pdf handling
 RUN apt-get update && \
     apt-get install -y imagemagick ghostscript \

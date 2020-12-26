@@ -62,7 +62,9 @@ class ImportController extends AbstractController
         $set = new Set();
         $manual = new Manual();
         $set->addManual($manual);
-        $form = $this->createForm(SetFormType::class, $set);
+        $form = $this->createForm(SetFormType::class, $set, [
+            'attr' => ['id' => 'set_form']
+        ]);
 
         try {
             $form->handleRequest($request);
