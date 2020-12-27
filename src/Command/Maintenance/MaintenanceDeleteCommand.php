@@ -42,8 +42,8 @@ class MaintenanceDeleteCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('remove a manual from database')
-            ->addOption('number', null, InputOption::VALUE_REQUIRED, 'Lego manual number')
+            ->setDescription('remove a set from database')
+            ->addOption('number', null, InputOption::VALUE_REQUIRED, 'Lego ^set number')
         ;
     }
 
@@ -78,7 +78,7 @@ class MaintenanceDeleteCommand extends Command
             $this->entityManager->remove($set);
             $this->entityManager->flush();
 
-            $io->success('Manual have been removed');
+            $io->success('Set have been removed');
             return 0;
 
         } catch (\Throwable $t) {

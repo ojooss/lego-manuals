@@ -45,16 +45,26 @@ class DownloadService
         }
         $fileName = strtolower(basename($url));
         if (substr($fileName, -3, 3) !== 'pdf') {
-            throw new RuntimeException('File is not a PDF: ' . $fileName);
+            #throw new RuntimeException('File is not a PDF: ' . $fileName);
+            $fileName = $fileName.'.pdf';
         }
 
-        $fileName = preg_replace('/[^a-z0-9\.]/', '', strtolower($fileName));
+        $fileName = $this->getSaveFilename($fileName);
         $localFile = $this->getDataDir() . '/' . $fileName;
         if (false == file_put_contents($localFile, $fileContent)) {
             throw new RuntimeException('Can not save ' . $fileName);
         }
 
         return $fileName;
+    }
+
+    /**
+     * @param $unsafeFilename
+     * @return string
+     */
+    public function getSaveFilename($unsafeFilename): string
+    {
+        return preg_replace('/[^a-z0-9\.]/', '', strtolower($unsafeFilename));
     }
 
 }
