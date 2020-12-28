@@ -4,7 +4,8 @@ services:
 
   webserver:
     environment:
-      XDEBUG_CONFIG: "idekey=${XDEBUG_IDEKEY} remote_enable=${XDEBUG_REMOTE_ENABLE} remote_host=${XDEBUG_REMOTE_HOST} remote_port=${XDEBUG_REMOTE_PORT}"
+      XDEBUG_MODE: "${XDEBUG_MODE}"
+      XDEBUG_CONFIG: "idekey=${XDEBUG_IDEKEY} client_host=${XDEBUG_CLIENT_HOST} client_port=${XDEBUG_CLIENT_PORT} discover_client_host=${XDEBUG_DISCOVER_CLIENT_HOST}"
       PHP_IDE_CONFIG: "serverName=${PHP_IDE_SERVER_NAME}"
       APP_ENV: dev
     volumes:
