@@ -1,4 +1,5 @@
 FROM php:8.0-apache
+LABEL maintainer="ojooss"
 
 
 # COMPOSER
@@ -7,7 +8,7 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 # linux packages
 RUN apt-get update && \
-    apt-get install -y git zip unzip gnupg && \
+    apt-get install -y git unzip gnupg && \
     apt-get clean
 
 
