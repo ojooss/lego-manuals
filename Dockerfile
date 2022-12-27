@@ -1,4 +1,4 @@
-FROM php:8.1-apache
+FROM php:8.2-apache
 LABEL maintainer="ojooss"
 
 
@@ -8,12 +8,12 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 # linux packages
 RUN apt-get update && \
-    apt-get install -y git unzip gnupg && \
+    apt-get install -y git unzip gnupg libicu-dev && \
     apt-get clean
 
 
 # PHP modules
-RUN docker-php-ext-install pdo pdo_mysql mysqli \
+RUN docker-php-ext-install pdo pdo_mysql mysqli intl \
  # xdebug
  && pecl install xdebug && docker-php-ext-enable xdebug
 
