@@ -8,8 +8,6 @@ services:
       context: ..
     image: lego:latest
     restart: always
-    ports:
-      - "${APP_DEFAULT_PORT}:80"
     volumes:
       - "../public/data:/var/www/html/public/data"
     environment:

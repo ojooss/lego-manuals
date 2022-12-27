@@ -8,6 +8,8 @@ services:
       XDEBUG_CONFIG: "idekey=${XDEBUG_IDEKEY} client_host=${XDEBUG_CLIENT_HOST} client_port=${XDEBUG_CLIENT_PORT} discover_client_host=${XDEBUG_DISCOVER_CLIENT_HOST}"
       PHP_IDE_CONFIG: "serverName=${PHP_IDE_SERVER_NAME}"
       APP_ENV: dev
+    ports:
+      - "${APP_DEFAULT_PORT}:80"
     volumes:
       # mount application dir
       - "../:/var/www/html:cached"
