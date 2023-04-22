@@ -1,0 +1,16 @@
+# LEGO manuals
+Based on SQLite database and a bunch of pdf files. Both located on "public/data".\
+This directory is also mounted to docker environment.
+
+## Development
+Start development environment:
+1) goto /docker
+2) run `docker-compose -f docker-compose.yaml -f docker-compose.dev.yaml up -d`
+
+## Deployment
+1) commit all changes and push via Github-Desktop
+2) use production repo on Github-Desktop and pull changes
+3) open ssh console on /docker and run
+    
+       docker-compose build
+       docker-compose up -d
