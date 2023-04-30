@@ -34,8 +34,15 @@ class IndexController extends AbstractController
             ->getRepository(Set::class)
             ->findBy([], ['name' => 'ASC']);
 
+        $fileCount = 0;
+        /** @var Set $set */
+        foreach ($sets as $set) {
+            $fileCount += $set->getManuals()->count();
+        }
+
         return $this->render('index/index.html.twig', [
-            'Sets' => $sets
+            'Sets' => $sets,
+            'fileCount' => $fileCount,
         ]);
     }
 }
