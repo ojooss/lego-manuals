@@ -7,6 +7,7 @@
         "ext-iconv": "*",
         "ext-imagick": "*",
         "composer/package-versions-deprecated": "^1.11",
+        "doctrine/annotations": "^2.0",
         "doctrine/doctrine-bundle": "^2.7",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.14",
