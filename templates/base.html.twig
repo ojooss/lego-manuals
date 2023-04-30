@@ -93,7 +93,9 @@
         <div class="col-md-4 col-sm-6 text-md-center text-sm-right">
             <p style="color: #bebebe;">
                 <small>
+                    {%  if Sets  is defined %}
                     {{ Sets|length }} Sets / {{ fileCount }} Anleitungen
+                    {% endif %}
                 </small>
             </p>
         </div>
