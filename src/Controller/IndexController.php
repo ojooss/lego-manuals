@@ -20,9 +20,7 @@ class IndexController extends AbstractController
     ) {
     }
 
-    /**
-     * @Route("/", name="index")
-     */
+    #[Route(path: '/', name: 'index')]
     public function index(): Response
     {
         $sets = $this->entityManager

@@ -10,47 +10,28 @@ use Stringable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
-/**
- * @ORM\Entity(repositoryClass=SetRepository::class)
- * @ORM\Table(
- *     name="`set`",
- *     indexes={
- *          @ORM\Index(name="set_number", columns={"number"}),
- *          @ORM\Index(name="set_name", columns={"name"})
- *     }
- * )
- */
+#[ORM\Table(name: '`set`')]
+#[ORM\Index(columns: ['number'], name: 'set_number')]
+#[ORM\Index(columns: ['name'], name: 'set_name')]
+#[ORM\Entity(repositoryClass: SetRepository::class)]
 class Set implements Stringable
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="integer", unique=true, nullable=true)
-     * @Assert\NotBlank(message="set.number.not_blank")
-     * @Assert\Positive(message="set.number.number")
-     */
+    #[ORM\Column(type: 'integer', unique: true, nullable: true)]
+    #[Assert\NotBlank(message: 'set.number.not_blank')]
+    #[Assert\Positive(message: 'set.number.number')]
     private ?int $number = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
-     * @Assert\NotBlank(message="set.name.not_blank")
-     */
+    #[ORM\Column(type: 'string', length: 255, unique: true, nullable: false)]
+    #[Assert\NotBlank(message: 'set.name.not_blank')]
     private string $name;
 
-    /**
-     * @ORM\OneToMany(
-     *      targetEntity="Manual",
-     *      mappedBy="set",
-     *      cascade={"persist", "remove"},
-     *      orphanRemoval=true
-     * )
-     */
-    private Collection $manuals;
+    #[ORM\OneToMany(mappedBy: 'set', targetEntity: 'Manual', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private readonly Collection $manuals;
 
     /**
      * Set constructor.

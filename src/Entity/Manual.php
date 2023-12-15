@@ -8,41 +8,29 @@ use Doctrine\ORM\Mapping as ORM;
 use Stringable;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass=ManualRepository::class)
- */
+#[ORM\Entity(repositoryClass: ManualRepository::class)]
 class Manual implements Stringable
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="manual.filename.not_blank")
-     */
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: 'manual.filename.not_blank')]
     private string $filename;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="manual.covername.not_blank")
-     */
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: 'manual.covername.not_blank')]
     private string $covername;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\NotBlank(message="manual.url.not_blank")
-     * @Assert\Url(message="manual.url.url")
-     */
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Assert\NotBlank(message: 'manual.url.not_blank')]
+    #[Assert\Url(message: 'manual.url.url')]
     private ?string $url = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Set", inversedBy="manuals")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: 'Set', inversedBy: 'manuals')]
+    #[ORM\JoinColumn(nullable: false)]
     private Set $set;
 
     /**

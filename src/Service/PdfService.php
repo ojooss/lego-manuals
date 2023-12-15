@@ -11,7 +11,7 @@ use Spatie\PdfToImage\Exceptions\PdfDoesNotExist;
 use Spatie\PdfToImage\Pdf as PdfImager;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
-class PdfService
+readonly class PdfService
 {
     private string $dataDir;
 

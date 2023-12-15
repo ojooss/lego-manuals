@@ -35,12 +35,12 @@ class ImportController extends AbstractController
     }
 
     /**
-     * @Route("/import", name="import")
      * @param Request $request
      * @return Response
      * @throws ImagickException
      * @throws PdfDoesNotExist
      */
+    #[Route(path: '/import', name: 'import')]
     public function index(Request $request): Response
     {
 

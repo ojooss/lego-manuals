@@ -7,7 +7,7 @@ namespace App\Service;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
-class DownloadService
+readonly class DownloadService
 {
 
     private string $dataDir;
