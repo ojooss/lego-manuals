@@ -2,45 +2,35 @@
 
 namespace App\Command\Maintenance;
 
-use App\Repository\ManualRepository;
 use App\Repository\SetRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Throwable;
 
 class MaintenanceDeleteCommand extends Command
 {
     protected static $defaultName = 'app:maintenance:delete';
 
     /**
-     * @var SetRepository
-     */
-    private SetRepository $setRepository;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    private EntityManagerInterface $entityManager;
-
-    /**
      * MaintenanceDeleteCommand constructor.
      * @param SetRepository $setRepository
      * @param EntityManagerInterface $entityManager
      */
-    public function __construct(SetRepository $setRepository, EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        private readonly SetRepository $setRepository,
+        private readonly EntityManagerInterface $entityManager
+    ) {
         parent::__construct();
-        $this->setRepository = $setRepository;
-        $this->entityManager = $entityManager;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('remove a set from database')
@@ -61,12 +51,12 @@ class MaintenanceDeleteCommand extends Command
             if ($input->getOption('number')) {
                 $number = $input->getOption('number');
             } else {
-                throw new \RuntimeException('no --number given');
+                throw new RuntimeException('no --number given');
             }
 
             $set = $this->setRepository->findOneBy(['number' => $number]);
             if (null === $set) {
-                throw new \RuntimeException('set #'.$number.' not found');
+                throw new RuntimeException('set #'.$number.' not found');
             }
 
             /** @var QuestionHelper $helper */
@@ -83,11 +73,9 @@ class MaintenanceDeleteCommand extends Command
             $io->success('Set have been removed');
             return 0;
 
-        } catch (\Throwable $t) {
+        } catch (Throwable $t) {
             $io->error($t->getMessage());
             return 1;
         }
-
     }
-
 }

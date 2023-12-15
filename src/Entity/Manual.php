@@ -1,22 +1,24 @@
-<?php /** @noinspection SpellCheckingInspection */
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection SpellCheckingInspection */
 
 namespace App\Entity;
 
 use App\Repository\ManualRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Stringable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ManualRepository::class)
  */
-class Manual
+class Manual implements Stringable
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private ?int $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -35,7 +37,7 @@ class Manual
      * @Assert\NotBlank(message="manual.url.not_blank")
      * @Assert\Url(message="manual.url.url")
      */
-    private ?string $url;
+    private ?string $url = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="Set", inversedBy="manuals")
@@ -141,7 +143,7 @@ class Manual
      */
     public function __toString(): string
     {
-        return $this->getUrl();
+        return (string) $this->getUrl();
     }
 
 }

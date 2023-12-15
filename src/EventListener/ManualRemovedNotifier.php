@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUnused */
 
 namespace App\EventListener;
 
@@ -7,21 +7,16 @@ use Doctrine\Persistence\Event\LifecycleEventArgs;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
-class ManualRemovedNotifier
+readonly class ManualRemovedNotifier
 {
-
-    /**
-     * @var ParameterBagInterface
-     */
-    private ParameterBagInterface $parameterBag;
 
     /**
      * ManualRemovedNotifier constructor.
      * @param ParameterBagInterface $parameterBag
      */
-    public function __construct(ParameterBagInterface $parameterBag)
-    {
-        $this->parameterBag = $parameterBag;
+    public function __construct(
+        private ParameterBagInterface $parameterBag,
+    ) {
     }
 
     /**

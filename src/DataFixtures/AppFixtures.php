@@ -8,6 +8,8 @@ use App\Service\DownloadService;
 use App\Service\PdfService;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use ImagickException;
+use Spatie\PdfToImage\Exceptions\PdfDoesNotExist;
 
 class AppFixtures extends Fixture
 {
@@ -21,26 +23,21 @@ class AppFixtures extends Fixture
     ];
 
     /**
-     * @var DownloadService
-     */
-    private DownloadService $downloadService;
-    /**
-     * @var PdfService
-     */
-    private PdfService $pdfService;
-
-    /**
      * AppFixtures constructor.
      * @param DownloadService $downloadService
      * @param PdfService $pdfService
      */
-    public function __construct(DownloadService $downloadService, PdfService $pdfService)
-    {
-        $this->downloadService = $downloadService;
-        $this->pdfService = $pdfService;
+    public function __construct(
+        private readonly DownloadService $downloadService,
+        private readonly PdfService $pdfService,
+    ) {
     }
 
-    public function load(ObjectManager $manager)
+    /**
+     * @throws PdfDoesNotExist
+     * @throws ImagickException
+     */
+    public function load(ObjectManager $manager): void
     {
         $setRepository = $manager->getRepository(Set::class);
 
@@ -71,7 +68,5 @@ class AppFixtures extends Fixture
         }
 
         $manager->flush();
-
     }
-
 }

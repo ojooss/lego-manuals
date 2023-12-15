@@ -9,8 +9,8 @@ use App\Repository\SetRepository;
 use App\Service\DownloadService;
 use App\Service\PdfService;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use ImagickException;
-use RuntimeException;
 use Spatie\PdfToImage\Exceptions\PdfDoesNotExist;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
@@ -22,31 +22,16 @@ class ImportController extends AbstractController
 {
 
     /**
-     * @var EntityManagerInterface
-     */
-    private EntityManagerInterface $entityManager;
-
-    /**
-     * @var DownloadService
-     */
-    private DownloadService $downloadService;
-
-    /**
-     * @var PdfService
-     */
-    private PdfService $pdfService;
-
-    /**
      * ImportController constructor.
      * @param EntityManagerInterface $entityManager
      * @param DownloadService $downloadService
      * @param PdfService $pdfService
      */
-    public function __construct(EntityManagerInterface $entityManager, DownloadService $downloadService,PdfService $pdfService)
-    {
-        $this->entityManager = $entityManager;
-        $this->downloadService = $downloadService;
-        $this->pdfService = $pdfService;
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager,
+        private readonly DownloadService $downloadService,
+        private readonly PdfService $pdfService,
+    ) {
     }
 
     /**
@@ -93,7 +78,7 @@ class ImportController extends AbstractController
                 }
             }
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->addFlash('error', $e->getMessage());
             throw $e;
         }

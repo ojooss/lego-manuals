@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace App\Entity;
 
@@ -6,6 +6,7 @@ use App\Repository\SetRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Stringable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -19,21 +20,21 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     }
  * )
  */
-class Set
+class Set implements Stringable
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private ?int $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="integer", unique=true, nullable=true)
      * @Assert\NotBlank(message="set.number.not_blank")
      * @Assert\Positive(message="set.number.number")
      */
-    private ?int $number;
+    private ?int $number = null;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true, nullable=false)
@@ -135,6 +136,7 @@ class Set
      *
      * @param Manual $manual
      * @return Set
+     * @noinspection PhpUnused
      */
     public function removeManual(Manual $manual): self
     {
@@ -160,5 +162,4 @@ class Set
     {
         return $this->getNumber().' '.$this->getName() . ' (' . count($this->manuals) . ' Dokumente)';
     }
-
 }

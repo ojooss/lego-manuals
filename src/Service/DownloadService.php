@@ -6,15 +6,11 @@ namespace App\Service;
 
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\HttpKernel\KernelInterface;
 
 class DownloadService
 {
 
-    /**
-     * @var mixed
-     */
-    private $dataDir;
+    private string $dataDir;
 
     /**
      * PdfService constructor.
@@ -40,18 +36,18 @@ class DownloadService
     public function downloadManualFile($url): string
     {
         $fileContent = file_get_contents($url);
-        if (false == $fileContent) {
+        if (false === $fileContent) {
             throw new RuntimeException('Can not download: ' . $url);
         }
-        $fileName = strtolower(basename($url));
-        if (substr($fileName, -3, 3) !== 'pdf') {
+        $fileName = strtolower(basename((string) $url));
+        if (!str_ends_with($fileName, 'pdf')) {
             #throw new RuntimeException('File is not a PDF: ' . $fileName);
             $fileName = $fileName.'.pdf';
         }
 
         $fileName = $this->getSaveFilename($fileName);
         $localFile = $this->getDataDir() . '/' . $fileName;
-        if (false == file_put_contents($localFile, $fileContent)) {
+        if (false === file_put_contents($localFile, $fileContent)) {
             throw new RuntimeException('Can not save ' . $fileName);
         }
 
@@ -64,7 +60,7 @@ class DownloadService
      */
     public function getSaveFilename($unsafeFilename): string
     {
-        return preg_replace('/[^a-z0-9\.]/', '', strtolower($unsafeFilename));
+        return preg_replace('/[^a-z0-9.]/', '', strtolower((string) $unsafeFilename));
     }
 
 }

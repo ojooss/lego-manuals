@@ -14,28 +14,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Throwable;
 
 class MaintenanceAddCommand extends Command
 {
     protected static $defaultName = 'app:maintenance:add';
-
-    /**
-     * @var SetRepository
-     */
-    private SetRepository $setRepository;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    private EntityManagerInterface $entityManager;
-    /**
-     * @var PdfService
-     */
-    private PdfService $pdfService;
-    /**
-     * @var DownloadService
-     */
-    private DownloadService $downloadService;
 
     /**
      * MaintenanceDeleteCommand constructor.
@@ -45,19 +28,15 @@ class MaintenanceAddCommand extends Command
      * @param DownloadService $downloadService
      */
     public function __construct(
-        SetRepository $setRepository,
-        EntityManagerInterface $entityManager,
-        PdfService $pdfService,
-        DownloadService $downloadService)
-    {
+        private readonly SetRepository $setRepository,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly PdfService $pdfService,
+        private readonly DownloadService $downloadService,
+    ) {
         parent::__construct();
-        $this->setRepository = $setRepository;
-        $this->entityManager = $entityManager;
-        $this->pdfService = $pdfService;
-        $this->downloadService = $downloadService;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('add a set or manual')
@@ -109,11 +88,11 @@ class MaintenanceAddCommand extends Command
                 $io->writeln('Going to add file');
                 $manual = new Manual();
                 $manual->setUrl($file);
-                $fileName = $this->downloadService->getSaveFilename(basename($file));
+                $fileName = $this->downloadService->getSaveFilename(basename((string) $file));
                 $io->writeln('New filename: ' . $fileName);
                 $localFile = $this->downloadService->getDataDir() . '/' . $fileName;
-                if (false == rename($file, $localFile)) {
-                    throw new RuntimeException('Can not move file ' . basename($file));
+                if (!rename($file, $localFile)) {
+                    throw new RuntimeException('Can not move file ' . basename((string) $file));
                 }
                 $manual->setFilename($fileName);
                 $imgName = $this->pdfService->extractCover(
@@ -143,11 +122,9 @@ class MaintenanceAddCommand extends Command
             $io->success('finished');
             return 0;
 
-        } catch (\Throwable $t) {
+        } catch (Throwable $t) {
             $io->error($t->getMessage());
             return 1;
         }
-
     }
-
 }

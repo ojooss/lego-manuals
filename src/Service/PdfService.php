@@ -13,10 +13,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class PdfService
 {
-    /**
-     * @var mixed
-     */
-    private $dataDir;
+    private string $dataDir;
 
     /**
      * PdfService constructor.
@@ -37,11 +34,11 @@ class PdfService
 
     /**
      * @param $pathToPdf
-     * @return string|string[]
-     * @throws PdfDoesNotExist
+     * @return string
      * @throws ImagickException
+     * @throws PdfDoesNotExist
      */
-    public function extractCover($pathToPdf)
+    public function extractCover($pathToPdf): string
     {
         if (!file_exists($pathToPdf)) {
             $pathToPdf = $this->getDataDir() . '/' . $pathToPdf;
@@ -49,8 +46,8 @@ class PdfService
 
         $pdf = new PdfImager($pathToPdf);
         $pdf->setCompressionQuality(90);
-        $imgName = basename($pathToPdf).'.jpg';
-        if (false == $pdf->saveImage($this->getDataDir() . '/' . $imgName)) {
+        $imgName = basename((string) $pathToPdf).'.jpg';
+        if (!$pdf->saveImage($this->getDataDir() . '/' . $imgName)) {
             throw new RuntimeException('Can not extract cover: ' . $imgName);
         }
 
@@ -60,5 +57,4 @@ class PdfService
 
         return $imgName;
     }
-
 }
