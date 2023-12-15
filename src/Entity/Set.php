@@ -68,6 +68,15 @@ class Set
     }
 
     /**
+     * @param int|null $id
+     * @return void
+     */
+    public function setId(?int $id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
      * @return int|null
      */
     public function getNumber(): ?int

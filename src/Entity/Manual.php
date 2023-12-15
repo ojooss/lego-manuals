@@ -52,6 +52,15 @@ class Manual
     }
 
     /**
+     * @param int|null $id
+     * @return void
+     */
+    public function setId(?int $id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
      * @return string|null
      */
     public function getFilename(): ?string
