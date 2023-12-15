@@ -104,7 +104,9 @@
             "php bin/console doctrine:fixtures:load  --no-interaction",
             "php bin/phpunit"
         ],
-        "check-outdated": "composer outdated --direct"
+        "check-outdated": "composer outdated --direct",
+        "phpstan": "vendor/bin/phpstan analyse --configuration phpstan.neon --memory-limit=-1",
+        "rector": "vendor/bin/rector process --clear-cache --dry-run"
     },
     "conflict": {
         "symfony/symfony": "*"
