@@ -5,6 +5,7 @@ namespace App\Command\Maintenance;
 use App\Repository\SetRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use RuntimeException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
@@ -14,10 +15,9 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Throwable;
 
+#[AsCommand('app:maintenance:delete', 'remove a set from database')]
 class MaintenanceDeleteCommand extends Command
 {
-    protected static $defaultName = 'app:maintenance:delete';
-
     /**
      * MaintenanceDeleteCommand constructor.
      * @param SetRepository $setRepository
@@ -33,7 +33,6 @@ class MaintenanceDeleteCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('remove a set from database')
             ->addOption('number', null, InputOption::VALUE_REQUIRED, 'Lego ^set number')
         ;
     }
@@ -64,18 +63,18 @@ class MaintenanceDeleteCommand extends Command
             $question = new ConfirmationQuestion('Do you really want to remove #'.$set->getNumber().' "'.$set->getName().'"? (y/n)', false, '/^(y|j)/i');
             if (!$helper->ask($input, $output, $question)) {
                 $io->warning('Aborted');
-                return 0;
+                return Command::SUCCESS;
             }
 
             $this->entityManager->remove($set);
             $this->entityManager->flush();
 
             $io->success('Set have been removed');
-            return 0;
+            return Command::SUCCESS;
 
         } catch (Throwable $t) {
             $io->error($t->getMessage());
-            return 1;
+            return Command::FAILURE;
         }
     }
 }

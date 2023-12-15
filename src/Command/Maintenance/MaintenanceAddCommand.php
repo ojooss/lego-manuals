@@ -9,6 +9,7 @@ use App\Service\DownloadService;
 use App\Service\PdfService;
 use Doctrine\ORM\EntityManagerInterface;
 use RuntimeException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -16,10 +17,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Throwable;
 
+#[AsCommand('app:maintenance:add', 'add a set or manual')]
 class MaintenanceAddCommand extends Command
 {
-    protected static $defaultName = 'app:maintenance:add';
-
     /**
      * MaintenanceDeleteCommand constructor.
      * @param SetRepository $setRepository
@@ -39,7 +39,6 @@ class MaintenanceAddCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('add a set or manual')
             ->addOption('number', null, InputOption::VALUE_REQUIRED, 'Lego set number')
             ->addOption('name', null, InputOption::VALUE_OPTIONAL, 'name of new set (required for new set)')
             ->addOption('file', null, InputOption::VALUE_OPTIONAL, 'path pdf file (either file or url required)')
@@ -120,11 +119,11 @@ class MaintenanceAddCommand extends Command
             $this->entityManager->flush();
 
             $io->success('finished');
-            return 0;
+            return Command::SUCCESS;
 
         } catch (Throwable $t) {
             $io->error($t->getMessage());
-            return 1;
+            return Command::FAILURE;
         }
     }
 }
