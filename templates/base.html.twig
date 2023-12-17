@@ -1,66 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Finns LEGO&reg; Anleitungen{% endblock %}</title>
-    {% block stylesheets %}{% endblock %}
-    <!-- Bootstrap core CSS -->
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Load icon library -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!-- customise -->
-    <link href="/css/app.css" rel="stylesheet">
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
     <!-- App Logo -->
-    <link rel="apple-touch-icon" sizes="57x57" href="appicons/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="appicons/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="appicons/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="appicons/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="appicons/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="appicons/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="appicons/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="appicons/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="appicons/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="appicons/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="appicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="appicons/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="appicons/favicon-16x16.png">
-    <link rel="manifest" href="appicons/manifest.json">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="appicons/ms-icon-144x144.png">
-    <meta name="theme-color" content="#ffffff">
+    <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('build/appicons/apple-icon-57x57.png') }}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('build/appicons/apple-icon-60x60.png') }}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('build/appicons/apple-icon-72x72.png') }}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('build/appicons/apple-icon-76x76.png') }}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('build/appicons/apple-icon-114x114.png') }}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ asset('build/appicons/apple-icon-120x120.png') }}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ asset('build/appicons/apple-icon-144x144.png') }}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('build/appicons/apple-icon-152x152.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('build/appicons/apple-icon-180x180.png') }}">
+    <link rel="icon" type="image/png" sizes="192x192"  href="{{ asset('build/appicons/android-icon-192x192.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('build/appicons/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('build/appicons/favicon-96x96.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('build/appicons/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ asset('build/appicons/manifest.json') }}">
 </head>
 <body>
 
 <nav class="navbar navbar-expand-md navbar-dark fixed-top">
-    <div class="display-4">Finns <a href="/"><img id="logo" src="/img/logo.jpeg" /></a> Anleitungen</div>
+    <div class="display-4 ms-3">Finns <a href="{{ path('index') }}">
+        <img id="logo" src="{{ asset('build/img/logo.jpeg') }}"  alt="Logo"/></a> Anleitungen
+    </div>
     {%  if Sets  is defined %}
     <div class="searchbar">
-        <form class="form-inline">
-            <script type="text/javascript">
-                function filterManuals()
-                {
-                    let queryString = document.getElementById('filter').value;
-                    let boxes = document.getElementsByClassName("manual-box");
-                    for(let i=0; i<boxes.length; i++)
-                    {
-                        let box = boxes[i];
-                        let caption = box.getAttribute('data-filter');
-                        if (queryString.length < 3 ||   caption.search(new RegExp(queryString, "i")) > -1  ) {
-                            box.style.display = 'block';
-                        } else {
-                            box.style.display = 'none';
-                        }
-                    }
-                }
-                function resetFilter()
-                {
-                    document.getElementById('filter').value = "";
-                    filterManuals();
-                }
-            </script>
-            <img class="investigator" src="/img/lego-investigator-s.png" />
-            <input id="filter" class="form-control mr-sm-2" type="text" placeholder="Suche" aria-label="Suche" onkeyup="filterManuals();">
-            <div class="reset" onclick="resetFilter();">&#10008;</div>
+        <form class="form-inline d-flex align-items-center">
+            <img class="investigator" src="{{ asset('build/img/lego-investigator-s.png') }}"  alt="lego-investigator-s.png"/>
+            <input id="input_filter" class="form-control mr-sm-2" type="text" placeholder="Suche" aria-label="Suche">
+            <div id="filter_reset" class="reset">&#10008;</div>
         </form>
     </div>
     {% endif %}
@@ -70,7 +43,6 @@
 <main role="main">
 
     <div class="container">
-
         {% for label, messages in app.flashes %}
             {% set class = 'alert-' ~ label %}
         {% if label == 'error' %}{% set class = 'alert-danger' %}{% endif %}
@@ -83,8 +55,14 @@
 
         {% block body %}{% endblock %}
         <hr>
-    </div> <!-- /container -->
-
+    </div>
+    {%  if Sets  is defined %}
+        <div id="add_set_container">
+            <a href="{{ path('import') }}" title="Neues Set Hinzufügen" data-bs-toggle="tooltip" data-bs-placement="left">
+                <img src="{{ asset('build/img/lego-builder.png') }}"  alt="lego-builder"/>
+            </a>
+        </div>
+    {% endif %}
 </main>
 
 <footer class="container">
@@ -106,5 +84,10 @@
         </div>
     </div>
 </footer>
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+{% endblock %}
+
 </body>
 </html>

@@ -1,24 +1,20 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
     <div class="d-flex align-content-start flex-wrap flex-row">
     {% for Set in Sets %}
-            {% for Manual in Set.getManuals() %}
+        {% for Manual in Set.getManuals() %}
         <div class="manual-box" data-filter="{{ Set.getNumber() }} {{ Set.getName() }}">
             <div class="manual-title">
-                {% if loop.first %}{{ Set.getName() }} {{ Set.getNumber() }}
-                {% else %}&nbsp;
-                {% endif %}
+                {% if loop.first %}{{ Set.getName() }} {{ Set.getNumber() }}{% endif %}
             </div>
             <div class="manual-pic">
                 <a href="/data/{{ Manual.getFilename() }}">
-                <img src="/data/{{ Manual.getCovername() }}" loading="lazy" />
+                    <img src="/data/{{ Manual.getCovername() }}" loading="lazy"  alt="{{ Manual.getCovername() }}"/>
                 </a>
             </div>
         </div>
-            {%  endfor %}
+        {%  endfor %}
     {% endfor %}
     </div>
-
 {% endblock %}

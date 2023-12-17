@@ -5,8 +5,8 @@
     <h1>Uhhhhps...</h1>
 
     <div style="margin: 15px auto 15px auto; width: 800px; position:relative;">
-        <img style="max-width: 100%; max-height: 100%;" src="/img/escape.png" />
-        {% if status_code == 404 %}<img style="position: absolute; top: 140px; left: 300px; width: 170px;" src="/img/404.png" />{% endif %}
+        <img style="max-width: 100%; max-height: 100%;" src="{{ asset('build/img/escape.png') }}"  alt="escape"/>
+        {% if status_code == 404 %}<img style="position: absolute; top: 140px; left: 300px; width: 170px;" src="{{ asset('build/img/404.png') }}"  alt="404"/>{% endif %}
     </div>
 
     <script type="text/javascript">
@@ -19,9 +19,14 @@
             document.getElementById('investigator').style.display = 'block';
         }
     </script>
-    <div id="investigator" style="text-align: right"><img src="/img/lego-investigator-s.png" style="cursor: pointer;" onclick="showException()" /></div>
+    <div id="investigator" style="text-align: right">
+        <img src="{{ asset('build/img/lego-investigator-s.png') }}" style="cursor: pointer;" onclick="showException()"  alt="lego-investigator"/>
+    </div>
     <div id="exception" style="display: none">
-        <h4><img src="/img/lego-investigator-s.png" style="cursor: pointer;" onclick="hideException()" /> {{ exception.message }}</h4>
+        <h4>
+            <img src="{{ asset('build/img/lego-investigator-s.png') }}" style="cursor: pointer;" onclick="hideException()"  alt="lego-investigator"/>
+            {{ exception.message }}
+        </h4>
         <pre>{{ exception.traceAsString }}</pre>
     </div>
 {% endblock %}

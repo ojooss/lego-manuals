@@ -1,3 +1,5 @@
+@import "bootstrap";
+
 .navbar {
     background-color: rgb(255, 207, 0);
     height: 100px;
@@ -26,7 +28,7 @@
 }
 
 main {
-    margin-top: 110px;
+    margin: 110px 0.5em 0 0.5em;
 }
 
 
@@ -105,4 +107,11 @@ main {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+#add_set_container {
+    position: absolute;
+    top: 120px;
+    right: 30px;
+    width: 35px;
 }
