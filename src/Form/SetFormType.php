@@ -30,7 +30,7 @@ class SetFormType extends AbstractType
 
         $builder->add('save', SubmitType::class,
             [
-                'attr' => ['class' => 'save-manual'],
+                'attr' => ['class' => 'btn btn-primary'],
                 'label' => 'Speichern'
             ]
         );

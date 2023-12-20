@@ -62,10 +62,16 @@ main {
     top: 115px;
     padding: 5px;
     border: dotted 2px rgb(255, 207, 0);
+    border-radius: 10px;
 }
 #research {
     width: 70px;
     text-align: right;
+}
+
+#research_input {
+    display: inline;
+    width: inherit;
 }
 
 #import-container {
@@ -82,7 +88,7 @@ main {
 }
 
 
-#waiting-cover {
+#waiting-fog {
     display: none;
     z-index: 1;
     width: 100%;
@@ -114,4 +120,38 @@ main {
     top: 120px;
     right: 30px;
     width: 35px;
+}
+
+.btn-outline-primary {
+    --bs-btn-color: #262626;
+    --bs-btn-border-color: rgb(255, 207, 0);
+    --bs-btn-hover-color: #262626;
+    --bs-btn-hover-bg: rgb(255, 207, 0);
+    --bs-btn-hover-border-color: rgb(255, 207, 0);
+    --bs-btn-focus-shadow-rgb: 13, 110, 253;
+    --bs-btn-active-color: #262626;
+    --bs-btn-active-bg: rgb(255, 207, 0);
+    --bs-btn-active-border-color: rgb(255, 207, 0);
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #262626;
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: rgb(255, 207, 0);
+    --bs-gradient: none;
+    --bs-btn-border-width: 2px;
+}
+.btn-primary {
+    --bs-btn-color: #262626;
+    --bs-btn-bg: rgb(255, 207, 0);
+    --bs-btn-border-color: rgb(255, 207, 0);
+    --bs-btn-hover-color: #262626;
+    --bs-btn-hover-bg: rgb(255, 233, 0);
+    --bs-btn-hover-border-color: rgb(255, 207, 0);
+    --bs-btn-focus-shadow-rgb: 49, 132, 253;
+    --bs-btn-active-color: #262626;
+    --bs-btn-active-bg: rgb(255, 207, 0);
+    --bs-btn-active-border-color: rgb(255, 222, 0);
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #262626;
+    --bs-btn-disabled-bg: rgb(255, 207, 0);
+    --bs-btn-disabled-border-color: rgb(255, 207, 0);
 }
