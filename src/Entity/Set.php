@@ -31,7 +31,7 @@ class Set implements Stringable
     private string $name;
 
     #[ORM\OneToMany(mappedBy: 'set', targetEntity: 'Manual', cascade: ['persist', 'remove'], orphanRemoval: true)]
-    private readonly Collection $manuals;
+    private Collection $manuals;
 
     /**
      * Set constructor.
