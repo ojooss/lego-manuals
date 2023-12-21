@@ -9,7 +9,7 @@ import Tooltip from 'bootstrap/js/dist/tooltip'
 let inputFilter = document.getElementById('input_filter');
 if (inputFilter) {
     inputFilter.addEventListener('keyup', function () {
-        let queryString = document.getElementById('filter').value;
+        let queryString =inputFilter.value;
         let boxes = document.getElementsByClassName("manual-box");
         for (let i = 0; i < boxes.length; i++) {
             let box = boxes[i];
@@ -22,8 +22,8 @@ if (inputFilter) {
         }
     });
     document.getElementById('filter_reset').addEventListener('click', function () {
-        document.getElementById('input_filter').value = "";
-        document.getElementById('input_filter').dispatchEvent(new Event('keyup'));
+        inputFilter.value = "";
+        inputFilter.dispatchEvent(new Event('keyup'));
     });
 }
 
