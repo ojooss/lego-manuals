@@ -7,10 +7,7 @@ Start development environment:
 1) goto /docker
 2) run `docker-compose -f docker-compose.yaml -f docker-compose.dev.yaml up -d`
 
-## Deployment
-1) commit all changes and push via Github-Desktop
-2) use production repo on Github-Desktop and pull changes
-3) open ssh console on /docker and run
-    
-       docker-compose build
-       docker-compose up -d
+## Build multi-arch image
+    docker buildx create --name mybuilder
+    docker buildx use mybuilder
+    docker buildx build --platform linux/amd64,linux/arm/v7 --tag ojooss/cooking:latest --push  .
