@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
     <title>{% block title %}Finns LEGO&reg; Anleitungen{% endblock %}</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
@@ -24,24 +26,45 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-md navbar-dark fixed-top">
-    <div class="display-4 ms-3">Finns <a href="{{ path('index') }}">
-        <img id="logo" src="{{ asset('build/img/logo.jpeg') }}"  alt="Logo"/></a> Anleitungen
-    </div>
-    {%  if Sets  is defined %}
-    <div class="searchbar">
-        <form class="form-inline d-flex align-items-center">
-            <img class="investigator" src="{{ asset('build/img/lego-investigator-s.png') }}"  alt="lego-investigator-s.png"/>
-            <input id="input_filter" class="form-control mr-sm-2" type="text" placeholder="Suche" aria-label="Suche">
-            <div id="filter_reset" class="reset">&#10008;</div>
-        </form>
-    </div>
+<div style="background-color: rgb(255, 207, 0); position: fixed; top: 0; width: 100%;">
+    {% if app.debug %}
+        <div style="position: absolute; top: 0; left: 0; padding: 3px; z-index: 99999999">
+            <div class="d-block d-sm-none">xs</div>
+            <div class="d-none d-sm-block d-md-none">sm</div>
+            <div class="d-none d-md-block d-lg-none">md</div>
+            <div class="d-none d-lg-block d-xl-none">lg</div>
+            <div class="d-none d-xl-block d-xxl-none">xl</div>
+            <div class="d-none d-xxl-block">xxl</div>
+        </div>
     {% endif %}
-
-</nav>
+    <div id="header" class="container">
+        <div class="row header-row">
+            <div class="col-md-7 col-lg-8 col-xl-9 col-12 header-column header-column-left">
+                <div class="ms-3">Finns <a href="{{ path('index') }}">
+                        <img id="logo" src="{{ asset('build/img/logo.jpeg') }}"  alt="Logo"/></a> Anleitungen
+                </div>
+            </div>
+            <div class="col-md-5 col-lg-4 col-xl-3 col-12 header-column header-column-right">
+                {%  if Sets  is defined %}
+                    <div class="searchbar ms-auto d-flex align-items-center">
+                        {%  if Sets  is defined %}
+                        <a class="me-3" href="{{ path('import') }}" title="Neues Set Hinzufügen" data-bs-toggle="tooltip" data-bs-placement="left">
+                            <img src="{{ asset('build/img/lego-builder.png') }}"  alt="lego-builder"/>
+                        </a>
+                        {% endif %}
+                        <form class="form-inline d-flex align-items-center">
+                            <img class="investigator" src="{{ asset('build/img/lego-investigator-s.png') }}"  alt="lego-investigator-s.png"/>
+                            <input id="input_filter" class="form-control mr-sm-2" type="text" placeholder="Suche" aria-label="Suche">
+                            <div id="filter_reset">&#10008;</div>
+                        </form>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
 
 <main role="main">
-
     <div class="container">
         {% for label, messages in app.flashes %}
             {% set class = 'alert-' ~ label %}
@@ -52,17 +75,9 @@
                 </div>
             {% endfor %}
         {% endfor %}
-
         {% block body %}{% endblock %}
         <hr>
     </div>
-    {%  if Sets  is defined %}
-        <div id="add_set_container">
-            <a href="{{ path('import') }}" title="Neues Set Hinzufügen" data-bs-toggle="tooltip" data-bs-placement="left">
-                <img src="{{ asset('build/img/lego-builder.png') }}"  alt="lego-builder"/>
-            </a>
-        </div>
-    {% endif %}
 </main>
 
 <footer class="container">

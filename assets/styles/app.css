@@ -1,32 +1,76 @@
 @import "bootstrap";
 
-.navbar {
-    background-color: rgb(255, 207, 0);
-    height: 100px;
+/**
+ * HEADER
+ */
+#header {
+    .header-column {
+        height: 85px;
+    }
+    .header-column-left {
+        font-size: 3.5rem;
+        font-weight: 300;
+        line-height: 1.2;
+    }
+    .header-column-right {
+        margin-top: 15px
+    }
+    form {
+        width: 100%;
+    }
+    .logo {
+        margin-bottom: 10px;
+    }
+    .searchbar {
+        /* max-width: 300px; */
+        position: relative;
+    }
+    .searchbar #filter_reset {
+        position: absolute;
+        top: 11px;
+        right: 15px;
+        cursor: pointer;
+        color: #abafb3; /* #4e555b; */
+    }
+    .investigator {
+        padding-right: 5px;
+    }
 }
 
-.logo {
-    margin-bottom: 10px;
+@media (max-width: 991.98px) {
+    #header {
+       .header-column-left {
+            font-size: 2.5rem;
+            padding-top: 0.7rem;
+        }
+        .header-column-right {
+            margin-top: 5px;
+        }
+    }
 }
 
-.searchbar {
-    right: 10px;
-    position: absolute;
-}
-.searchbar #filter {
-    width: 200px;
-}
-.searchbar .reset {
-    position: absolute;
-    top: 11px;
-    right: 15px;
-    cursor: pointer;
-    color: #abafb3; /* #4e555b; */
-}
-.investigator {
-    padding-right: 5px;
+/* Small devices (landscape phones, less than 768px) */
+@media (max-width: 767.98px) {
+    #header {
+        .header-column {
+            height: 55px;
+        }
+        .header-column-left {
+            font-size: 1.5rem;
+            padding-top: 0.25rem;
+        }
+        .header-column-right {
+            margin-top: 0px;
+        }
+        #logo {
+            height: 2.5rem;
+        }
+    }
 }
 
+/**
+ * MAIN content
+ */
 main {
     margin: 110px 0.5em 0 0.5em;
 }
@@ -46,6 +90,16 @@ main {
     width: 33% !important;
     padding: 5px;
     margin-bottom: 15px;
+}
+@media (max-width: 991.98px) {
+    .manual-box {
+        width: 50% !important;
+    }
+}
+@media (max-width: 767.98px) {
+    .manual-box {
+        width: 100% !important;
+    }
 }
 .manual-pic {
     vertical-align: top;
@@ -113,13 +167,6 @@ main {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-}
-
-#add_set_container {
-    position: absolute;
-    top: 120px;
-    right: 30px;
-    width: 35px;
 }
 
 .btn-outline-primary {
