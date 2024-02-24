@@ -10,4 +10,4 @@ Start development environment:
 ## Build multi-arch image
     docker buildx create --name mybuilder
     docker buildx use mybuilder
-    docker buildx build --platform linux/amd64,linux/arm/v7 --tag ojooss/cooking:latest --push  .
+    docker buildx build --platform linux/amd64,linux/arm/v7 --tag ojooss/lema:latest --push  .

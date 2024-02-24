@@ -5,8 +5,6 @@ services:
   webserver:
     container_name: lego
     image: ojooss/lema:latest
-    build:
-      context: ..
     restart: always
     volumes:
       - "../public/data:/var/www/html/public/data"
