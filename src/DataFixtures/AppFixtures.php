@@ -57,12 +57,12 @@ class AppFixtures extends Fixture
 
             $manual = new Manual();
             $manual->setUrl($url);
-            $fileName = $this->downloadService->downloadManualFile($url);
-            $manual->setFilename($fileName);
-            $imgName = $this->pdfService->extractCover(
-                $this->pdfService->getDataDir() . '/' . $fileName
-            );
-            $manual->setCovername($imgName);
+            $filePath = $this->downloadService->downloadManualFile($url);
+            $manual->setFilename(basename($filePath));
+            $manual->setFile(file_get_contents($filePath));
+            $jpgFile = $this->pdfService->extractCover($filePath);
+            $manual->setCovername(basename($jpgFile));
+            $manual->setCover(file_get_contents($jpgFile));
             $manual->setSet($set);
             $manager->persist($manual);
         }

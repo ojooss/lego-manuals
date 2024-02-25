@@ -86,30 +86,27 @@ class MaintenanceAddCommand extends Command
             if ($file) {
                 $io->writeln('Going to add file');
                 $manual = new Manual();
-                $manual->setUrl($file);
                 $fileName = $this->downloadService->getSaveFilename(basename((string) $file));
                 $io->writeln('New filename: ' . $fileName);
-                $localFile = $this->downloadService->getDataDir() . '/' . $fileName;
-                if (!rename($file, $localFile)) {
-                    throw new RuntimeException('Can not move file ' . basename((string) $file));
-                }
                 $manual->setFilename($fileName);
-                $imgName = $this->pdfService->extractCover(
-                    $this->pdfService->getDataDir() . '/' . $fileName
+                $manual->setFile(
+                    file_get_contents($file)
                 );
-                $manual->setCovername($imgName);
+                $imgFile = $this->pdfService->extractCover($file);
+                $manual->setCovername(basename($imgFile));
+                $manual->setCover(file_get_contents($imgFile));
                 $set->addManual($manual);
             } elseif ($url) {
                 $io->writeln('Going to add file from URL');
                 $manual = new Manual();
                 $manual->setUrl($url);
-                $fileName = $this->downloadService->downloadManualFile($url);
-                $io->writeln('New filename: ' . $fileName);
-                $manual->setFilename($fileName);
-                $imgName = $this->pdfService->extractCover(
-                    $this->pdfService->getDataDir() . '/' . $fileName
-                );
-                $manual->setCovername($imgName);
+                $filePath = $this->downloadService->downloadManualFile($url);
+                $io->writeln('New filename: ' . basename($filePath));
+                $manual->setFilename(basename($filePath));
+                $manual->setFile(file_get_contents($filePath));
+                $imgFile = $this->pdfService->extractCover($filePath);
+                $manual->setCovername(basename($imgFile));
+                $manual->setCover(file_get_contents($imgFile));
                 $set->addManual($manual);
             } else {
                 throw new RuntimeException('neither --file nor --url given');

@@ -33,6 +33,15 @@ class Manual implements Stringable
     #[ORM\JoinColumn(nullable: false)]
     private Set $set;
 
+    #[ORM\Column(type: 'blob', nullable: true)]
+#[Assert\NotBlank(message: 'manual.filename.not_blank')]
+    private $file;
+
+    #[ORM\Column(type: 'blob', nullable: true)]
+#[Assert\NotBlank(message: 'manual.covername.not_blank')]
+    private $cover;
+
+
     /**
      * @return int|null
      */
@@ -123,6 +132,34 @@ class Manual implements Stringable
     {
         $this->covername = $covername;
 
+        return $this;
+    }
+
+    /**
+     * @return null|resource
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    public function setFile(string $file): Manual
+    {
+        $this->file = $file;
+        return $this;
+    }
+
+    /**
+     * @return null|resource
+     */
+    public function getCover()
+    {
+        return $this->cover;
+    }
+
+    public function setCover(string $cover): Manual
+    {
+        $this->cover = $cover;
         return $this;
     }
 

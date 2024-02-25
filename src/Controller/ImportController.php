@@ -65,9 +65,11 @@ class ImportController extends AbstractController
                     /** @var Manual $manual */
                     foreach ($set->getManuals() as $manual) {
                         $pdfFile = $this->downloadService->downloadManualFile($manual->getUrl());
-                        $manual->setFilename($pdfFile);
+                        $manual->setFilename(basename($pdfFile));
+                        $manual->setFile(file_get_contents($pdfFile));
                         $jpgFile = $this->pdfService->extractCover($pdfFile);
-                        $manual->setCovername($jpgFile);
+                        $manual->setCovername(basename($jpgFile));
+                        $manual->setCover(file_get_contents($jpgFile));
                     }
                     $this->entityManager->persist($set);
                     $this->entityManager->flush();

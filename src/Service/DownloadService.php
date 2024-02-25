@@ -5,28 +5,18 @@ namespace App\Service;
 
 
 use RuntimeException;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
-readonly class DownloadService
+class DownloadService
 {
 
-    private string $dataDir;
+    private array $history = [];
 
-    /**
-     * PdfService constructor.
-     * @param ParameterBagInterface $parameterBag
-     */
-    public function __construct(ParameterBagInterface $parameterBag)
+    public function __destruct()
     {
-        $this->dataDir = $parameterBag->get('data_directory');
-    }
-
-    /**
-     * @return string
-     */
-    public function getDataDir(): string
-    {
-        return $this->dataDir;
+        // clean tmp stuff
+        foreach ($this->history as $file) {
+            @unlink($file);
+        }
     }
 
     /**
@@ -46,12 +36,14 @@ readonly class DownloadService
         }
 
         $fileName = $this->getSaveFilename($fileName);
-        $localFile = $this->getDataDir() . '/' . $fileName;
+        $localFile = sys_get_temp_dir() . '/' . $fileName;
         if (false === file_put_contents($localFile, $fileContent)) {
             throw new RuntimeException('Can not save ' . $fileName);
         }
 
-        return $fileName;
+        $this->history[] = $localFile;
+
+        return $localFile;
     }
 
     /**
