@@ -110,22 +110,16 @@ main {
     object-fit: contain;
 }
 
-#research-container {
-    position: absolute;
-    right: 56px;
-    top: 115px;
-    padding: 5px;
-    border: dotted 2px rgb(255, 207, 0);
-    border-radius: 10px;
-}
 #research {
     width: 70px;
     text-align: right;
 }
 
-#research_input {
-    display: inline;
-    width: inherit;
+@media (min-width: 991.98px) {
+    #research_input {
+        max-width: 200px;
+        margin-left: auto;
+    }
 }
 
 #import-container {

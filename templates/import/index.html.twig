@@ -7,17 +7,24 @@
         <img id="waiting-img" src="{{ asset('build/img/loading.gif') }}"  alt="waiting"/>
     </div>
 
-    <div id="research-container">
-        <!--suppress HtmlFormInputWithoutLabel -->
-        <input id="research_input" class="form-control align-middle" type="text" value="" placeholder="Nummer nachschlagen" />&nbsp;
-        <input id="research_button" class="btn btn-sm btn-outline-primary align-middle" type="button" value="Set nachschlagen" />
-    </div>
-
     <div id="import-container">
-        <h3>
-            <img src="{{ asset('build/img/lego-builder.png') }}"  alt="lego-builder"/>
-            Neues LEGO Set anlegen
-        </h3>
+        <div class="row">
+            <div class="col-12 col-lg-6">
+                <h3>
+                    <img src="{{ asset('build/img/lego-builder.png') }}"  alt="lego-builder"/>
+                    Neues LEGO Set anlegen
+                </h3>
+            </div>
+            <div class="col-12 col-lg-6 mb-4 text-end">
+                <div class="input-group">
+                    <!--suppress HtmlFormInputWithoutLabel -->
+                    <input id="research_input" class="form-control align-middle" type="text" value="" placeholder="Nummer nachschlagen" />&nbsp;
+                    <div class="input-group-append my-auto">
+                        <input id="research_button" class="btn btn-sm btn-outline-primary align-middle form-control" type="button" value="Set nachschlagen" />
+                    </div>
+                </div>
+            </div>
+        </div>
 
         {{ form_errors(form) }}
         {{ form_start(form) }}
