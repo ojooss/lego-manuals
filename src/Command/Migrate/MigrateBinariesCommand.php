@@ -3,7 +3,9 @@
 namespace App\Command\Migrate;
 
 use App\Entity\Manual;
+use App\Service\DownloadService;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -19,9 +21,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class MigrateBinariesCommand extends Command
 {
     public function __construct(
-        protected readonly EntityManagerInterface $entityManager
-    )
-    {
+        protected readonly EntityManagerInterface $entityManager,
+        protected readonly DownloadService $downloadService,
+    ) {
         parent::__construct();
     }
 
@@ -39,7 +41,8 @@ class MigrateBinariesCommand extends Command
         $io->title('Migrate from filesystem to database');
 
         $repository = $this->entityManager->getRepository(Manual::class);
-        $dataDir = __DIR__ . '/../../../public/data/';
+        #$dataDir = __DIR__ . '/../../../public/data/';
+        $dataDir = '/var/www/html/data/';
 
         if ($input->getOption('test')) {
             $io->info('Preparing for test');
@@ -74,24 +77,30 @@ class MigrateBinariesCommand extends Command
         }
         foreach ($manuals as $manual) {
             $io->writeln($manual->getSet() . ' / ' . $manual->getFilename());
-            $pathToPdf = $dataDir . $manual->getFilename();
-            $io->writeln('   pdf: ' . $pathToPdf);
-            if (!file_exists($pathToPdf)) {
-                $io->error('file not found: ' . $pathToPdf);
-                continue;
-            }
-            $pathToCover = $dataDir . $manual->getCovername();
-            $io->writeln('   cover: ' . $pathToCover);
-            if (!file_exists($pathToCover)) {
-                $io->error('file not found: ' . $pathToCover);
-                continue;
-            }
+            try {
+                $pathToPdf = $dataDir . $manual->getFilename();
+                if (!file_exists($pathToPdf)) {
+                    $pathToPdf = $this->downloadService->downloadManualFile($manual->getUrl());
+                }
+                $io->writeln('   pdf: ' . $pathToPdf);
+                if (!file_exists($pathToPdf)) {
+                    $io->error('file not found: ' . $pathToPdf);
+                    continue;
+                }
+                $pathToCover = $dataDir . $manual->getCovername();
+                $io->writeln('   cover: ' . $pathToCover);
+                if (!file_exists($pathToCover)) {
+                    $io->error('file not found: ' . $pathToCover);
+                    continue;
+                }
 
-            $manual->setFile(file_get_contents($pathToPdf));
-            $manual->setCover(file_get_contents($pathToCover));
-            $this->entityManager->persist($manual);
-            $this->entityManager->flush();
-
+                $manual->setFile(file_get_contents($pathToPdf));
+                $manual->setCover(file_get_contents($pathToCover));
+                $this->entityManager->persist($manual);
+                $this->entityManager->flush();
+            } catch (Exception $e) {
+                $io->error($e->getMessage());
+            }
             $io->newLine();
         }
 
