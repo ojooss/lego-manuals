@@ -10,4 +10,4 @@ services:
       - "./data:/var/www/html/data"
     environment:
       APP_ENV: prod
-      DATABASE_URL: "sqlite:///var/www/html/data/sqlite.db"
+      DATABASE_URL: "sqlite::////var/www/html/data/sqlite.db"
