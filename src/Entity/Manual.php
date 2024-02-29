@@ -34,11 +34,9 @@ class Manual implements Stringable
     private Set $set;
 
     #[ORM\Column(type: 'blob', nullable: true)]
-#[Assert\NotBlank(message: 'manual.filename.not_blank')]
     private $file;
 
     #[ORM\Column(type: 'blob', nullable: true)]
-#[Assert\NotBlank(message: 'manual.covername.not_blank')]
     private $cover;
 
 

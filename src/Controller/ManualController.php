@@ -6,6 +6,7 @@ use App\Entity\Manual;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\HeaderUtils;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\Cache;
 use Symfony\Component\Routing\Annotation\Route;
 
 
@@ -37,6 +38,7 @@ class ManualController extends AbstractController
     }
 
     #[Route('/manual/{id}/cover', name: 'manual_cover')]
+    #[Cache(maxage: 86400, public: true, mustRevalidate: true)]
     public function cover(Manual $manual): Response
     {
         $filename = strtolower($manual->getCovername());
