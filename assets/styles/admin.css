@@ -1,0 +1,11 @@
+/* EasyAdmin */
+.sidebar {
+    background-color: rgb(255, 207, 0) !important;
+}
+.menu-item, .menu-item a, .menu-icon {
+    color: #0a0a0a !important;
+}
+.menu-item.active {
+    background-color: rgb(210, 171, 0) !important;
+}
+
