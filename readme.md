@@ -6,6 +6,7 @@ This directory is also mounted to docker environment.
 Start development environment:
 1) goto /docker
 2) run `docker-compose -f docker-compose.yaml -f docker-compose.dev.yaml up -d`
+3) load fixtures `php bin/console doctrine:fixtures:load`
 
 ## Build multi-arch image
     docker buildx create --name mybuilder
