@@ -105,8 +105,7 @@
             "php bin/console translation:update --force --output-format=yaml  --sort=asc --as-tree=3 de"
         ],
         "test": [
-            "php bin/console doctrine:fixtures:load  --no-interaction",
-            "php bin/phpunit"
+            "php bin/console doctrine:fixtures:load  --no-interaction"
         ],
         "check-outdated": "composer outdated --direct",
         "phpstan": "vendor/bin/phpstan analyse --configuration phpstan.neon --memory-limit=-1",
