@@ -27,6 +27,9 @@ ADD docker/ImageMagick-6-Policy.xml /etc/ImageMagick-6/policy.xml
 # add application
 COPY --from=app  /var/www/html/ /var/www/html
 
+# Volumes
+VOLUME /var/www/html/public/data
+
 # Entrypoint
 COPY entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/entrypoint.sh
