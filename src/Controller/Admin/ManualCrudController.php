@@ -22,11 +22,7 @@ class ManualCrudController extends AbstractCrudController
                 ->onlyOnIndex() // This will display the ID only on the index/list view
                 ->hideOnForm() // This will hide the ID on the form view
             ,
-            TextField::new('filename')
-                ->setLabel('Dateiname'),
-            TextField::new('covername')
-                ->setLabel('Covername'),
-            TextField::new('url')
+           TextField::new('url')
                 ->setLabel('URL'),
             //TextEditorField::new('description'),
             AssociationField::new('set')
