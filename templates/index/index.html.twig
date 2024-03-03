@@ -9,8 +9,8 @@
                 {% if loop.first %}{{ Set.getName() }} {{ Set.getNumber() }}{% endif %}
             </div>
             <div class="manual-pic">
-                <a href="{{ path('manual', {'id': Manual.getId()}) }}">
-                    <img src="{{ path('manual_cover', {'id': Manual.getId()}) }}" loading="lazy"  alt="{{ Manual.getCovername() }}"/>
+                <a href="{{ dataPath ~ '/' ~ Manual.getPdfFileName() }}">
+                    <img src="{{ dataPath ~ '/' ~  Manual.getCoverFileName() }}" loading="lazy"  alt="{{ Manual.getCoverFileName() }}"/>
                 </a>
             </div>
         </div>

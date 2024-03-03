@@ -9,41 +9,32 @@ use RuntimeException;
 class DownloadService
 {
 
-    private array $history = [];
-
-    public function __destruct()
-    {
-        // clean tmp stuff
-        foreach ($this->history as $file) {
-            @unlink($file);
-        }
-    }
-
     /**
-     * @param $url
+     * @param string $url
+     * @param string|null $filePath
      * @return string
      */
-    public function downloadManualFile($url): string
+    public function downloadManualFile(string $url, ?string $filePath = null): string
     {
         $fileContent = file_get_contents($url);
         if (false === $fileContent) {
             throw new RuntimeException('Can not download: ' . $url);
         }
-        $fileName = strtolower(basename((string) $url));
+        $fileName = strtolower(basename($url));
         if (!str_ends_with($fileName, 'pdf')) {
             #throw new RuntimeException('File is not a PDF: ' . $fileName);
             $fileName = $fileName.'.pdf';
         }
 
-        $fileName = $this->getSaveFilename($fileName);
-        $localFile = sys_get_temp_dir() . '/' . $fileName;
-        if (false === file_put_contents($localFile, $fileContent)) {
+        if (null === $filePath) {
+            $fileName = $this->getSaveFilename($fileName);
+            $filePath = sys_get_temp_dir() . '/' . $fileName;
+        }
+        if (false === file_put_contents($filePath, $fileContent)) {
             throw new RuntimeException('Can not save ' . $fileName);
         }
 
-        $this->history[] = $localFile;
-
-        return $localFile;
+        return $filePath;
     }
 
     /**
@@ -54,5 +45,4 @@ class DownloadService
     {
         return preg_replace('/[^a-z0-9.]/', '', strtolower((string) $unsafeFilename));
     }
-
 }

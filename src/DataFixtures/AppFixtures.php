@@ -4,8 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Manual;
 use App\Entity\Set;
-use App\Service\DownloadService;
-use App\Service\PdfService;
+use App\Service\ManualService;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use ImagickException;
@@ -24,18 +23,17 @@ class AppFixtures extends Fixture
 
     /**
      * AppFixtures constructor.
-     * @param DownloadService $downloadService
-     * @param PdfService $pdfService
+     * @param ManualService $manualService
      */
     public function __construct(
-        private readonly DownloadService $downloadService,
-        private readonly PdfService $pdfService,
+        private readonly ManualService $manualService,
     ) {
     }
 
     /**
-     * @throws PdfDoesNotExist
+     * @param ObjectManager $manager
      * @throws ImagickException
+     * @throws PdfDoesNotExist
      */
     public function load(ObjectManager $manager): void
     {
@@ -57,16 +55,11 @@ class AppFixtures extends Fixture
 
             $manual = new Manual();
             $manual->setUrl($url);
-            $filePath = $this->downloadService->downloadManualFile($url);
-            $manual->setFilename(basename($filePath));
-            $manual->setFile(file_get_contents($filePath));
-            $jpgFile = $this->pdfService->extractCover($filePath);
-            $manual->setCovername(basename($jpgFile));
-            $manual->setCover(file_get_contents($jpgFile));
             $manual->setSet($set);
             $manager->persist($manual);
-        }
+            $manager->flush();
 
-        $manager->flush();
+            $this->manualService->fetchFiles($manual);
+        }
     }
 }

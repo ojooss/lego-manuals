@@ -7,7 +7,6 @@ services:
     image: ojooss/lema:latest
     restart: always
     volumes:
-      - "./data:/var/www/html/data"
+      - "./data:/var/www/html/public/data"
     environment:
       APP_ENV: prod
-      DATABASE_URL: "sqlite::////var/www/html/data/sqlite.db"

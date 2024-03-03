@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Set;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -21,7 +22,7 @@ class IndexController extends AbstractController
     }
 
     #[Route(path: '/', name: 'index')]
-    public function index(): Response
+    public function index(ParameterBagInterface $parameterBag): Response
     {
         $sets = $this->entityManager
             ->getRepository(Set::class)
@@ -36,6 +37,7 @@ class IndexController extends AbstractController
         return $this->render('index/index.html.twig', [
             'Sets' => $sets,
             'fileCount' => $fileCount,
+            'dataPath' => $parameterBag->get('app.data_path'),
         ]);
     }
 }

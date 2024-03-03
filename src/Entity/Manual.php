@@ -5,6 +5,7 @@ namespace App\Entity;
 
 use App\Repository\ManualRepository;
 use Doctrine\ORM\Mapping as ORM;
+use LogicException;
 use Stringable;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -16,14 +17,6 @@ class Manual implements Stringable
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank(message: 'manual.filename.not_blank')]
-    private string $filename;
-
-    #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank(message: 'manual.covername.not_blank')]
-    private string $covername;
-
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Assert\NotBlank(message: 'manual.url.not_blank')]
     #[Assert\Url(message: 'manual.url.url')]
@@ -32,12 +25,6 @@ class Manual implements Stringable
     #[ORM\ManyToOne(targetEntity: 'Set', inversedBy: 'manuals')]
     #[ORM\JoinColumn(nullable: false)]
     private Set $set;
-
-    #[ORM\Column(type: 'blob', nullable: true)]
-    private $file;
-
-    #[ORM\Column(type: 'blob', nullable: true)]
-    private $cover;
 
 
     /**
@@ -55,25 +42,6 @@ class Manual implements Stringable
     public function setId(?int $id): void
     {
         $this->id = $id;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getFilename(): ?string
-    {
-        return $this->filename;
-    }
-
-    /**
-     * @param string $filename
-     * @return $this
-     */
-    public function setFilename(string $filename): self
-    {
-        $this->filename = $filename;
-
-        return $this;
     }
 
     /**
@@ -114,51 +82,21 @@ class Manual implements Stringable
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getCovername(): string
+    public function getPdfFileName(): string
     {
-        return $this->covername;
+        if (null === $this->getSet()?->getNumber()) {
+            throw new LogicException('Set has no number');
+        }
+        if (null === $this->getId()) {
+            throw new LogicException('Save entity before calling ' . __METHOD__);
+        }
+        $pathInfo  = pathinfo($this->getUrl());
+        return $this->getSet()->getNumber() . '_' . $this->getId() . '.' . $pathInfo['extension']??'dat';
     }
 
-    /**
-     * @param string $covername
-     * @return Manual
-     */
-    public function setCovername(string $covername): self
+    public function getCoverFileName(): string
     {
-        $this->covername = $covername;
-
-        return $this;
-    }
-
-    /**
-     * @return null|resource
-     */
-    public function getFile()
-    {
-        return $this->file;
-    }
-
-    public function setFile(string $file): Manual
-    {
-        $this->file = $file;
-        return $this;
-    }
-
-    /**
-     * @return null|resource
-     */
-    public function getCover()
-    {
-        return $this->cover;
-    }
-
-    public function setCover(string $cover): Manual
-    {
-        $this->cover = $cover;
-        return $this;
+        return $this->getPdfFileName() . '.jpg';
     }
 
     /**

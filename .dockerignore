@@ -26,5 +26,5 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
 ###> Data-Volume ###
-/public/data
+/docker/data
 ###< Data-Volume ###

@@ -6,12 +6,9 @@ use App\Entity\Manual;
 use App\Entity\Set;
 use App\Form\SetFormType;
 use App\Repository\SetRepository;
-use App\Service\DownloadService;
-use App\Service\PdfService;
+use App\Service\ManualService;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
-use ImagickException;
-use Spatie\PdfToImage\Exceptions\PdfDoesNotExist;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,21 +21,18 @@ class ImportController extends AbstractController
     /**
      * ImportController constructor.
      * @param EntityManagerInterface $entityManager
-     * @param DownloadService $downloadService
-     * @param PdfService $pdfService
+     * @param ManualService $manualService
      */
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private readonly DownloadService $downloadService,
-        private readonly PdfService $pdfService,
+        private readonly ManualService $manualService,
     ) {
     }
 
     /**
      * @param Request $request
      * @return Response
-     * @throws ImagickException
-     * @throws PdfDoesNotExist
+     * @throws Exception
      */
     #[Route(path: '/import', name: 'import')]
     public function index(Request $request): Response
@@ -61,19 +55,11 @@ class ImportController extends AbstractController
                 $setNumber = ''.$form->get('number')->getData();
                 $setName = ''.$form->get('name')->getData();
                 if (!$setRepository->doesAlreadyExist($setNumber, $setName)) {
-                    // download manuals
-                    /** @var Manual $manual */
-                    foreach ($set->getManuals() as $manual) {
-                        $pdfFile = $this->downloadService->downloadManualFile($manual->getUrl());
-                        $manual->setFilename(basename($pdfFile));
-                        $manual->setFile(file_get_contents($pdfFile));
-                        $jpgFile = $this->pdfService->extractCover($pdfFile);
-                        $manual->setCovername(basename($jpgFile));
-                        $manual->setCover(file_get_contents($jpgFile));
-                    }
                     $this->entityManager->persist($set);
                     $this->entityManager->flush();
-                    // goto index
+                    foreach ($set->getManuals() as $manual) {
+                        $this->manualService->fetchFiles($manual);
+                    }
                     return $this->redirectToRoute('index');
                 } else {
                     $form->addError(new FormError("Das Set '#" . $setNumber . " " . $setName . "' existiert bereits"));

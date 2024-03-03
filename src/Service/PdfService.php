@@ -14,12 +14,13 @@ readonly class PdfService
 {
 
     /**
-     * @param $pathToPdf
+     * @param string $pathToPdf
+     * @param string|null $pathToJpg
      * @return string
      * @throws ImagickException
      * @throws PdfDoesNotExist
      */
-    public function extractCover($pathToPdf): string
+    public function extractCover(string $pathToPdf, ?string $pathToJpg = null): string
     {
         if (!file_exists($pathToPdf)) {
             throw new RuntimeException('file not found: ' . $pathToPdf);
@@ -27,16 +28,19 @@ readonly class PdfService
 
         $pdf = new PdfImager($pathToPdf);
         $pdf->setCompressionQuality(90);
-        $imgName = basename((string) $pathToPdf).'.jpg';
-        $imgFile = sys_get_temp_dir() . '/' . $imgName;
-        if (!$pdf->saveImage($imgFile)) {
-            throw new RuntimeException('Can not extract cover: ' . $imgName);
+        if (null === $pathToJpg) {
+            $imgName = basename($pathToPdf) . '.jpg';
+            $pathToJpg = sys_get_temp_dir() . '/' . $imgName;
+        }
+        if (!$pdf->saveImage($pathToJpg)) {
+            throw new RuntimeException('Can not extract cover of : ' . $pathToPdf);
         }
 
-        $im = new Imagick($imgFile);
+        // scale image down to 300px
+        $im = new Imagick($pathToJpg);
         $im->scaleImage(300, 0);
-        $im->writeImage($imgFile);
+        $im->writeImage($pathToJpg);
 
-        return $imgFile;
+        return $pathToJpg;
     }
 }

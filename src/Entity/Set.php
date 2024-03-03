@@ -129,7 +129,7 @@ class Set implements Stringable
     /**
      * Get manuals
      *
-     * @return Collection
+     * @return Collection<Manual>
      */
     public function getManuals(): Collection
     {

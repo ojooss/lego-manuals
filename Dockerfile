@@ -8,8 +8,6 @@ RUN yarn install \
  && yarn encore prod \
  && composer install --optimize-autoloader --no-dev  \
  && php bin/console ca:cl \
- && mkdir -p /var/www/html/var/log/ \
- && touch /var/www/html/var/log/prod.log \
  && chown -R www-data:www-data /var/www/html
 
 
