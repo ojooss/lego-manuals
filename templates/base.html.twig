@@ -48,6 +48,9 @@
                 {%  if Sets  is defined %}
                     <div class="searchbar ms-auto d-flex align-items-center">
                         {%  if Sets  is defined %}
+                        <a class="me-3" href="{{ path('admin') }}" title="Administration" data-bs-toggle="tooltip" data-bs-placement="left">
+                            <img src="{{ asset('build/img/logo-admin.png') }}"  alt="lego-builder"/>
+                        </a>
                         <a class="me-3" href="{{ path('import') }}" title="Neues Set Hinzufügen" data-bs-toggle="tooltip" data-bs-placement="left">
                             <img src="{{ asset('build/img/lego-builder.png') }}"  alt="lego-builder"/>
                         </a>
