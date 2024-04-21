@@ -3,11 +3,13 @@
 namespace App\Command\Maintenance;
 
 use App\Entity\Manual;
+use App\Entity\Set;
 use App\Service\ManualService;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -27,6 +29,13 @@ class MaintenanceUpdateCommand extends Command
         parent::__construct();
     }
 
+    protected function configure(): void
+    {
+        $this
+            ->addArgument('number', InputArgument::OPTIONAL, 'Lego set number')
+        ;
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -37,7 +46,15 @@ class MaintenanceUpdateCommand extends Command
         $io->writeln('Data directory: ' . $dataDir);
         $io->newLine();
 
-        $manuals = $repository->findAll();
+        if ($number = $input->getArgument('number')) {
+            $io->writeln('Set number: ' . $number);
+            $io->newLine();
+            $manuals = $repository->findBy([
+                'set' => $this->entityManager->getRepository(Set::class)->findBy(['number' => $number]),
+            ]);
+        } else {
+            $manuals = $repository->findAll();
+        }
         foreach ($manuals as $manual) {
             $io->writeln($manual->getSet()->getNumber() . ' / ' . $manual->getSet()->getName() . ' / ' . $manual->getId());
             try {
