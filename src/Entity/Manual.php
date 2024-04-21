@@ -91,7 +91,7 @@ class Manual implements Stringable
             throw new LogicException('Save entity before calling ' . __METHOD__);
         }
         $pathInfo  = pathinfo($this->getUrl());
-        return $this->getSet()->getNumber() . '_' . $this->getId() . '.' . $pathInfo['extension']??'dat';
+        return $this->getSet()->getNumber() . '_' . $this->getId() . '.' . ($pathInfo['extension']??'pdf');
     }
 
     public function getCoverFileName(): string
