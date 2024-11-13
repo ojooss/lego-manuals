@@ -1,6 +1,8 @@
-FROM ojooss/webserver:8.2-latest as app
-
+FROM ojooss/webserver:8.2-latest AS app
 ENV APP_ENV=prod
+
+# add symfony-cli
+RUN curl -sS https://get.symfony.com/cli/installer | bash
 
 # add sources and prepare for production
 COPY . /var/www/html
