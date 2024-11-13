@@ -1,11 +1,6 @@
 FROM ojooss/webserver:8.2-latest AS app
 ENV APP_ENV=prod
 
-# add symfony-cli
-#RUN curl -sS https://get.symfony.com/cli/installer | bash
-RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | bash \
-     && apt install symfony-cli
-
 # add sources and prepare for production
 COPY . /var/www/html
 RUN yarn install \
