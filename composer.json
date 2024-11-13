@@ -88,7 +88,7 @@
     "scripts": {
         "auto-scripts": [
             "php bin/console cache:clear",
-            "php bin/console assets:install %PUBLIC_DIR%",
+            "php bin/console assets:install %PUBLIC_DIR%"
         ],
         "post-install-cmd": [
             "yarn install --force",
