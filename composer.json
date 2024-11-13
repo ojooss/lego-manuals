@@ -86,10 +86,10 @@
         "symfony/polyfill-php56": "*"
     },
     "scripts": {
-        "auto-scripts": {
-            "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
-        },
+        "auto-scripts": [
+            "php bin/console cache:clear",
+            "php bin/console assets:install %PUBLIC_DIR%",
+        ],
         "post-install-cmd": [
             "yarn install --force",
             "@auto-scripts"
