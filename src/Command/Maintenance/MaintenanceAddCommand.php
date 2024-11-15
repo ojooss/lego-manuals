@@ -5,8 +5,7 @@ namespace App\Command\Maintenance;
 use App\Entity\Manual;
 use App\Entity\Set;
 use App\Repository\SetRepository;
-use App\Service\DownloadService;
-use App\Service\PdfService;
+use App\Service\ManualService;
 use Doctrine\ORM\EntityManagerInterface;
 use RuntimeException;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -24,14 +23,12 @@ class MaintenanceAddCommand extends Command
      * MaintenanceDeleteCommand constructor.
      * @param SetRepository $setRepository
      * @param EntityManagerInterface $entityManager
-     * @param PdfService $pdfService
-     * @param DownloadService $downloadService
+     * @param ManualService $manualService
      */
     public function __construct(
         private readonly SetRepository $setRepository,
         private readonly EntityManagerInterface $entityManager,
-        private readonly PdfService $pdfService,
-        private readonly DownloadService $downloadService,
+        private readonly ManualService $manualService,
     ) {
         parent::__construct();
     }
@@ -41,7 +38,6 @@ class MaintenanceAddCommand extends Command
         $this
             ->addOption('number', null, InputOption::VALUE_REQUIRED, 'Lego set number')
             ->addOption('name', null, InputOption::VALUE_OPTIONAL, 'name of new set (required for new set)')
-            ->addOption('file', null, InputOption::VALUE_OPTIONAL, 'path pdf file (either file or url required)')
             ->addOption('url', null, InputOption::VALUE_OPTIONAL, 'url to pdf file(either file or url required)')
         ;
     }
@@ -61,11 +57,13 @@ class MaintenanceAddCommand extends Command
 
             $number = $input->getOption('number');
             $name = $input->getOption('name');
-            $file = $input->getOption('file');
             $url = $input->getOption('url');
 
             if (empty($number)) {
                 throw new RuntimeException('No --number given');
+            }
+            if (empty($url)) {
+                throw new RuntimeException('No --url given');
             }
 
             // check set
@@ -82,38 +80,14 @@ class MaintenanceAddCommand extends Command
                 $io->writeln('Using existing SET ('.$set->getName().')');
             }
 
-            // add manual
-            if ($file) {
-                $io->writeln('Going to add file');
-                $manual = new Manual();
-                $fileName = $this->downloadService->getSaveFilename(basename((string) $file));
-                $io->writeln('New filename: ' . $fileName);
-                $manual->setFilename($fileName);
-                $manual->setFile(
-                    file_get_contents($file)
-                );
-                $imgFile = $this->pdfService->extractCover($file);
-                $manual->setCovername(basename($imgFile));
-                $manual->setCover(file_get_contents($imgFile));
-                $set->addManual($manual);
-            } elseif ($url) {
-                $io->writeln('Going to add file from URL');
-                $manual = new Manual();
-                $manual->setUrl($url);
-                $filePath = $this->downloadService->downloadManualFile($url);
-                $io->writeln('New filename: ' . basename($filePath));
-                $manual->setFilename(basename($filePath));
-                $manual->setFile(file_get_contents($filePath));
-                $imgFile = $this->pdfService->extractCover($filePath);
-                $manual->setCovername(basename($imgFile));
-                $manual->setCover(file_get_contents($imgFile));
-                $set->addManual($manual);
-            } else {
-                throw new RuntimeException('neither --file nor --url given');
-            }
-
+            // add manual to set
+            $io->writeln('Going to add file from URL');
+            $manual = new Manual();
+            $manual->setUrl($url);
+            $set->addManual($manual);
             $this->entityManager->persist($set);
             $this->entityManager->flush();
+            $this->manualService->fetchFiles($manual);
 
             $io->success('finished');
             return Command::SUCCESS;
