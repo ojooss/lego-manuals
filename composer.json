@@ -18,7 +18,7 @@
         "symfony/console": "7.0.*",
         "symfony/dotenv": "7.0.*",
         "symfony/expression-language": "7.0.*",
-        "symfony/flex": "^2.0",
+        "symfony/flex": "^2.4",
         "symfony/form": "7.0.*",
         "symfony/framework-bundle": "7.0.*",
         "symfony/http-client": "7.0.*",
@@ -86,10 +86,10 @@
         "symfony/polyfill-php56": "*"
     },
     "scripts": {
-        "auto-scripts": [
-            "php bin/console cache:clear",
-            "php bin/console assets:install %PUBLIC_DIR%"
-        ],
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        },
         "post-install-cmd": [
             "yarn install --force",
             "@auto-scripts"
