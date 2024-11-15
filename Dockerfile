@@ -3,11 +3,11 @@ ENV APP_ENV=prod
 
 # add sources and prepare for production
 COPY . /var/www/html
-RUN yarn install \
- && yarn encore prod \
- && composer install --optimize-autoloader --no-dev  \
- && php bin/console ca:cl \
- && chown -R www-data:www-data /var/www/html
+RUN yarn install
+RUN yarn encore prod
+RUN composer install --optimize-autoloader --no-dev
+RUN php bin/console ca:cl
+RUN chown -R www-data:www-data /var/www/html
 
 
 FROM ojooss/webserver:8.2-latest
