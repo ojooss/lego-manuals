@@ -3,10 +3,11 @@ ENV APP_ENV=prod
 
 # add sources and prepare for production
 COPY . /var/www/html
+RUN composer install --optimize-autoloader --no-dev --no-scripts
+RUN php bin/console cache:clear
 RUN yarn install
 RUN yarn encore prod
-RUN composer install --optimize-autoloader --no-dev
-RUN php bin/console ca:cl
+RUN php bin/console assets:install public
 RUN chown -R www-data:www-data /var/www/html
 
 
