@@ -1,7 +1,4 @@
-version: "3"
-
 services:
-
   webserver:
     container_name: lego
     image: ojooss/lema:latest
