@@ -4,16 +4,26 @@ ENV APP_ENV=prod
 # add sources and prepare for production
 COPY . /var/www/html
 RUN composer install --optimize-autoloader --no-dev --no-scripts
-RUN php bin/console cache:clear
+#RUN php bin/console cache:clear
 RUN yarn install
 RUN yarn encore prod
-RUN php bin/console assets:install public
+#RUN php bin/console assets:install public
 RUN chown -R www-data:www-data /var/www/html
 
 
 FROM ojooss/webserver:8.2-latest
 LABEL maintainer="ojooss"
 ENV APP_ENV=prod
+
+# add chrome
+RUN apt-get update && \
+    apt-get install -y wget gnupg --no-install-recommends && \
+    wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+    sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list' && \
+    apt-get update && \
+    apt-get install -y google-chrome-stable --no-install-recommends && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # apache configuration
 COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf

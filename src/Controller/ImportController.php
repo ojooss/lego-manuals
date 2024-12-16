@@ -11,8 +11,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ImportController extends AbstractController
@@ -55,6 +60,11 @@ class ImportController extends AbstractController
                 $setNumber = ''.$form->get('number')->getData();
                 $setName = ''.$form->get('name')->getData();
                 if (!$setRepository->doesAlreadyExist($setNumber, $setName)) {
+                    foreach ($set->getManuals() as $manual) {
+                        if (empty($manual->getUrl())) {
+                            $set->removeManual($manual);
+                        }
+                    }
                     $this->entityManager->persist($set);
                     $this->entityManager->flush();
                     foreach ($set->getManuals() as $manual) {
@@ -76,4 +86,22 @@ class ImportController extends AbstractController
         ]);
     }
 
+    /**
+     * @param int $setNumber
+     * @param KernelInterface $kernel
+     * @return Response
+     */
+    #[Route(path: '/import/autoload/{setNumber}', name: 'import_autoload')]
+    public function autoload(int $setNumber, KernelInterface $kernel): Response
+    {
+        try {
+            $script = $kernel->getProjectDir() . '/try-to-get-pdf-urls.js';
+            $process = new Process(['node', $script, '--set', $setNumber]);
+            $process->mustRun();
+            $result = json_decode($process->getOutput(), true);
+            return new JsonResponse($result);
+        } catch (ProcessFailedException $exception) {
+            throw new HttpException(Response::HTTP_INTERNAL_SERVER_ERROR, $exception->getMessage());
+        }
+    }
 }

@@ -9,7 +9,7 @@ import Tooltip from 'bootstrap/js/dist/tooltip'
 let inputFilter = document.getElementById('input_filter');
 if (inputFilter) {
     inputFilter.addEventListener('keyup', function () {
-        let queryString =inputFilter.value;
+        let queryString = inputFilter.value;
         let boxes = document.getElementsByClassName("manual-box");
         for (let i = 0; i < boxes.length; i++) {
             let box = boxes[i];
@@ -46,8 +46,42 @@ if (researchInput) {
             document.getElementById('research_input').value;
     });
     let researchButton = document.getElementById('research_button');
-    researchButton.addEventListener('click', function () {
-        window.open('https://www.lego.com/de-de/service/buildinginstructions/' + researchInput.value);
+    researchButton.addEventListener('click', function (event) {
+        if (researchInput.value.length > 3) {
+            console.log('analysing ' + researchInput.value);
+            fadeIn(document.getElementById('waiting-fog'));
+            fadeIn(document.getElementById('waiting-container'));
+            const xhr = new XMLHttpRequest();
+            const url = "/import/autoload/" + researchInput.value;
+            xhr.open("GET", url, true); // GET-Request konfigurieren
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText); // JSON-Daten parsen
+                        console.log('response: ', response.documents);
+                        document.getElementById("set_form_name").value = response.title;
+                        let i = 0;
+                        response.documents.forEach(
+                            (pdfUrl) => {
+                                let input = document.getElementById("set_form_manuals_" + i + "_url");
+                                while (input === null && i < 100) {
+                                    i++;
+                                    input = document.getElementById("set_form_manuals_" + i + "_url");
+                                }
+                                input.value = pdfUrl;
+                                addFileFieldToForm();
+                                i++;
+                            })
+                        fadeOut(document.getElementById('waiting-fog'));
+                        fadeOut(document.getElementById('waiting-container'));
+                    } else {
+                        console.error('error: ' + xhr.status + ' ' + xhr.statusText + ' ' + xhr.responseText);
+                    }
+                }
+            };
+            xhr.send();
+        }
+//        window.open('https://www.lego.com/de-de/service/buildinginstructions/' + researchInput.value);
     });
 }
 
@@ -55,10 +89,10 @@ if (researchInput) {
 /**
  * add PDF to list
  */
-document.body.addEventListener('click', function(e) {
+document.body.addEventListener('click', function (e) {
     if (e.target.matches('#button-add-set')) {
         let collectionHolderClass = e.target.getAttribute('data-collection-holder-class');
-        addFormToCollection(collectionHolderClass);
+        addFileFieldToForm(collectionHolderClass);
     }
 });
 
@@ -68,7 +102,7 @@ function fadeIn(element) {
     element.style.display = 'block';
     element.style.opacity = '0';
     let opacity = 0;
-    let interval = setInterval(function() {
+    let interval = setInterval(function () {
         if (opacity < 1) {
             opacity += 0.05;
             element.style.opacity = opacity;
@@ -77,9 +111,10 @@ function fadeIn(element) {
         }
     }, 30); // Adjust the timing here to control the speed of the animation
 }
+
 function fadeOut(element) {
     let opacity = 1;
-    let interval = setInterval(function() {
+    let interval = setInterval(function () {
         if (opacity > 0) {
             opacity -= 0.05;
             element.style.opacity = opacity;
@@ -95,27 +130,22 @@ function fadeOut(element) {
 let formElement = document.getElementById('set_form');
 if (formElement) {
     formElement.addEventListener('submit', function () {
-        document.getElementById('waiting-fog').style.display = 'block';
-        let waitingContainer = document.getElementById('waiting-container');
-        fadeIn(waitingContainer);
+        fadeOut(document.getElementById('waiting-fog'));
+        fadeOut(document.getElementById('waiting-container'));
     });
 }
 
-document.addEventListener('keyup', function(event) {
+document.addEventListener('keyup', function (event) {
     if (event.key === "Escape") { // Check if the Escape key was pressed
-        fadeOut(
-            document.getElementById('waiting-fog')
-        );
-        fadeOut(
-            document.getElementById('waiting-container')
-        );
+        fadeOut(document.getElementById('waiting-fog'));
+        fadeOut(document.getElementById('waiting-container'));
     }
 });
 
 
-function addFormToCollection($collectionHolderClass) {
+function addFileFieldToForm() {
     // Get the ul that holds the collection of tags
-    let collectionHolder = document.querySelector('.' + $collectionHolderClass);
+    let collectionHolder = document.querySelector('.file-collection');
 
     // Get the data-prototype explained earlier
     let newForm = collectionHolder.getAttribute('data-prototype');
@@ -124,8 +154,11 @@ function addFormToCollection($collectionHolderClass) {
     // instead be a number based on how many items we have
     newForm = newForm.replace(
         /__name__/g,
-        document.querySelector('.file-collection li').length + 1
+        document.querySelectorAll('.file-collection li').length + 1
     );
+
+    // new rows may be empty
+    newForm = newForm.replace(/required="required"/g,'');
 
     // Display the form in the page in an li, before the "Add a tag" link li
     let newFormLi = document.createElement('li');
