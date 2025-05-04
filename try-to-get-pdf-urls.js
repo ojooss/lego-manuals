@@ -61,11 +61,13 @@ const baseUrl = 'https://www.lego.com/de-de/service/buildinginstructions/';
     // Div-Elemente suchen
     console.log('  "documents": [');
     let i = 0;
-    document.querySelectorAll('div[class="c-bi-booklet"] a').forEach(function (element) {
-        if (element.href.substr(-4, 4) === '.pdf') {
-            console.log('  ' + (i++ > 0 ? ',' : '') + '"' + element.href + '"');
-        }
-    })
+    //document.querySelectorAll('div[class="c-bi-booklet"] a')
+    document.querySelectorAll('a')
+        .forEach(function (element) {
+            if (element.href.slice(-4) === '.pdf' && element.href.indexOf('product-assets') > -1) {
+                console.log('    ' + (i++ > 0 ? ',' : '') + '"' + element.href + '"');
+            }
+        });
     console.log('  ]');
     console.log('}');
 
