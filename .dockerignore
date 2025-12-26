@@ -18,6 +18,12 @@
 /public/build/
 ###< symfony/webpack-encore-bundle ###
 
+
+###> node ###
+node_modules
+###< node ###
+
+
 ###> Data-Volume ###
 /docker/data
 ###< Data-Volume ###
