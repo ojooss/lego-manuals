@@ -1,4 +1,4 @@
-FROM ojooss/webserver:8.2-latest AS app
+FROM ojooss/webserver:8.5-latest AS app
 ENV APP_ENV=prod
 
 # add sources and prepare for production
@@ -11,7 +11,7 @@ RUN yarn encore prod
 RUN chown -R www-data:www-data /var/www/html
 
 
-FROM ojooss/webserver:8.2-latest
+FROM ojooss/webserver:8.5-latest
 LABEL maintainer="ojooss"
 ENV APP_ENV=prod
 
