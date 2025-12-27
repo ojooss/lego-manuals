@@ -21,6 +21,7 @@
 
 ###> node ###
 node_modules
+batch/html_loader/node_modules
 ###< node ###
 
 

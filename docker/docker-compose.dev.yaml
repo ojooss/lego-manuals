@@ -1,8 +1,7 @@
-version: "3"
-
 services:
-
   webserver:
+    build:
+      context: ../
     environment:
       XDEBUG_MODE: "${XDEBUG_MODE}"
       XDEBUG_CONFIG: "idekey=${XDEBUG_IDEKEY} client_host=${XDEBUG_CLIENT_HOST} client_port=${XDEBUG_CLIENT_PORT} discover_client_host=${XDEBUG_DISCOVER_CLIENT_HOST}"
