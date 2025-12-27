@@ -1,5 +1,5 @@
 *Build/Configuration Instructions
-Run all command line tasks within the docker container called "webserver" as specified in the docker-compose.yaml file (beware of docker-compose.dev.yaml).
+Run all command line tasks within the docker container called "lego" as specified in the docker-compose.yaml file (beware of docker-compose.dev.yaml).
 Assume the container is running.
 Run the docker commands from within the "docker" folder.
 The project root within the container is "/var/www/html/".
