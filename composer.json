@@ -55,6 +55,7 @@
         "symfony/var-dumper": "7.4.*",
         "symfony/web-profiler-bundle": "7.4.*"
     },
+    "classmap": ["config/"],
     "config": {
         "optimize-autoloader": true,
         "preferred-install": {
