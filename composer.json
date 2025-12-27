@@ -92,11 +92,11 @@
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "post-install-cmd": [
-            "yarn install --force",
+            "npm install",
             "@auto-scripts"
         ],
         "post-update-cmd": [
-            "yarn upgrade",
+            "npm update",
             "@auto-scripts"
         ],
         "fixtures": [

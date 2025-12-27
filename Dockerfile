@@ -5,8 +5,8 @@ ENV APP_ENV=prod
 COPY . /var/www/html
 RUN composer install --optimize-autoloader --no-dev --no-scripts --ignore-platform-req=ext-imagick
 #RUN php bin/console cache:clear
-#RUN yarn install
-#RUN yarn encore prod
+RUN npm install
+RUN npm run build
 #RUN php bin/console assets:install public
 RUN chown -R www-data:www-data /var/www/html
 
