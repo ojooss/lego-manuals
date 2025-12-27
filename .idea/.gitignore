@@ -32,3 +32,4 @@
 
 # Editor-based Rest Client
 /httpRequests
+/deployment.xml
