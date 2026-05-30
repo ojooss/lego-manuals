@@ -17,7 +17,8 @@ ENV APP_ENV=prod
 
 # add imagemagick and ghostscript
 # from: https://pecl.php.net/package/imagick
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     libmagickwand-dev libmagickcore-dev ghostscript \
     && apt-get clean \
     && pecl install imagick \
