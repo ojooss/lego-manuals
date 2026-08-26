@@ -5,58 +5,44 @@
  * Rector instantly upgrades and refactors the PHP code of your application.
  * see: https://github.com/rectorphp/rector
  *
- * call like this:  php vendor/bin/rector process  --clear-cache --dry-run
+ * call like this:  vendor/bin/rector process --dry-run
  */
 
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
-use Rector\Core\ValueObject\PhpVersion;
 use Rector\Doctrine\Set\DoctrineSetList;
 use Rector\Php74\Rector\Closure\ClosureToArrowFunctionRector;
-use Rector\Php74\Rector\LNumber\AddLiteralSeparatorToNumberRector;
-use Rector\Php80\Rector\FunctionLike\MixedTypeRector;
-use Rector\Renaming\Rector\Name\RenameClassRector;
+use Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector;
 use Rector\Set\ValueObject\LevelSetList;
-use Rector\Symfony\Set\SymfonyLevelSetList;
-use Rector\Symfony\Set\SymfonySetList;
+use Rector\Set\ValueObject\SetList;
 
-
-return static function (RectorConfig $rectorConfig): void {
-
-    $rectorConfig->phpVersion(PhpVersion::PHP_82);
-
-    $rectorConfig->phpstanConfig(__DIR__ . '/phpstan.neon');
-
-    $rectorConfig->sets([
-        LevelSetList::UP_TO_PHP_81,
-
-        DoctrineSetList::ANNOTATIONS_TO_ATTRIBUTES,
-        SymfonySetList::ANNOTATIONS_TO_ATTRIBUTES,
-        SymfonySetList::SYMFONY_CODE_QUALITY,
-        SymfonyLevelSetList::UP_TO_SYMFONY_62,
-    ]);
-
-    $rectorConfig->paths([
+return RectorConfig::configure()
+    ->withoutParallel()
+    ->withPHPStanConfigs([__DIR__ . '/phpstan.neon'])
+    ->withPaths([
         __DIR__ . '/src',
         __DIR__ . '/templates',
-#        __DIR__ . '/tests',
-    ]);
-
-    $rectorConfig->skip([
-
+        __DIR__ . '/tests',
+    ])
+    ->withImportNames()
+    ->withComposerBased(twig: true)
+    ->withAttributesSets(
+        symfony: true,
+        doctrine: true,
+        phpunit: true
+    )
+    ->withSets([
+        LevelSetList::UP_TO_PHP_84,
+        DoctrineSetList::DOCTRINE_CODE_QUALITY,
+        SetList::DEAD_CODE,
+        SetList::TYPE_DECLARATION,
+    ])
+    ->withSkip([
         /**
-         * @see https://github.com/rectorphp/rector/blob/main/docs/rector_rules_overview.md
+         * @see: https://github.com/rectorphp/rector/blob/main/docs/rector_rules_overview.md
          */
-
-        // Preserve legibility
+        // for better reading
         ClosureToArrowFunctionRector::class,
-        AddLiteralSeparatorToNumberRector::class,
-
-        // removes PhpDoc parameter definitions
-        MixedTypeRector::class,
-        RenameClassRector::class,
+        ClassPropertyAssignToConstructorPromotionRector::class,
     ]);
-
-    $rectorConfig->parallel(300);
-};
