@@ -84,7 +84,7 @@ class Manual implements Stringable
 
     public function getPdfFileName(): string
     {
-        if (null === $this->getSet()?->getNumber()) {
+        if (null === $this->getSet()->getNumber()) {
             throw new LogicException('Set has no number');
         }
         if (null === $this->getId()) {
