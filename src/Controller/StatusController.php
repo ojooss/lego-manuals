@@ -47,7 +47,7 @@ class StatusController extends AbstractController
         $systemGroup->addCheck(
             new CallbackCheck(
                 'security:check',
-                function (Result $result) {
+                function (Result $result): void {
                     $process = new Process(['symfony', 'security:check', '--format=json']);
                     $process->setWorkingDirectory(__DIR__ . '/../../');
                     $process->run();

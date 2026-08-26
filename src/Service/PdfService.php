@@ -14,9 +14,6 @@ readonly class PdfService
 {
 
     /**
-     * @param string $pathToPdf
-     * @param string|null $pathToJpg
-     * @return string
      * @throws ImagickException
      * @throws PdfDoesNotExist
      */

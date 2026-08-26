@@ -11,6 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Set|null findOneBy(array $criteria, array $orderBy = null)
  * @method Set[]    findAll()
  * @method Set[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends \Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository<\App\Entity\Set>
  */
 class SetRepository extends ServiceEntityRepository
 {
@@ -35,7 +36,6 @@ class SetRepository extends ServiceEntityRepository
         ;
     }
     */
-
     /*
     public function findOneBySomeField($value): ?Set
     {
@@ -47,13 +47,7 @@ class SetRepository extends ServiceEntityRepository
         ;
     }
     */
-
-    /**
-     * @param string $number
-     * @param string|null $name
-     * @return bool
-     */
-    public function doesAlreadyExist(string $number, ?string $name = null)
+    public function doesAlreadyExist(string $number, ?string $name = null): bool
     {
         $check = $this->findBy(['number' => $number]);
         if (!empty($check)) {

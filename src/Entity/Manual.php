@@ -3,6 +3,7 @@
 
 namespace App\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\ManualRepository;
 use Doctrine\ORM\Mapping as ORM;
 use LogicException;
@@ -14,10 +15,10 @@ class Manual implements Stringable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     #[Assert\NotBlank(message: 'manual.url.not_blank')]
     #[Assert\Url(message: 'manual.url.url')]
     private ?string $url = null;
@@ -27,35 +28,21 @@ class Manual implements Stringable
     private Set $set;
 
 
-    /**
-     * @return int|null
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int|null $id
-     * @return void
-     */
     public function setId(?int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return string|null
-     */
     public function getUrl(): ?string
     {
         return $this->url;
     }
 
-    /**
-     * @param string|null $url
-     * @return $this
-     */
     public function setUrl(?string $url): self
     {
         $this->url = $url;
@@ -63,18 +50,11 @@ class Manual implements Stringable
         return $this;
     }
 
-    /**
-     * @return Set
-     */
     public function getSet(): Set
     {
         return $this->set;
     }
 
-    /**
-     * @param Set $set
-     * @return Manual
-     */
     public function setSet(Set $set): self
     {
         $this->set = $set;
@@ -99,9 +79,6 @@ class Manual implements Stringable
         return $this->getPdfFileName() . '.jpg';
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return (string) $this->getUrl();

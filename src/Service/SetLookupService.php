@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Process\Process;
 
@@ -16,7 +17,7 @@ class SetLookupService
      * Runs the Puppeteer-based scraper script to look up a LEGO set's
      * title and manual URLs on lego.com by its set number.
      *
-     * @throws \Symfony\Component\Process\Exception\ProcessFailedException
+     * @throws ProcessFailedException
      */
     public function lookup(int $setNumber): array
     {

@@ -24,8 +24,6 @@ class ImportController extends AbstractController
 
     /**
      * ImportController constructor.
-     * @param EntityManagerInterface $entityManager
-     * @param ManualService $manualService
      */
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
@@ -35,8 +33,6 @@ class ImportController extends AbstractController
     }
 
     /**
-     * @param Request $request
-     * @return Response
      * @throws Exception
      */
     #[Route(path: '/import', name: 'import')]
@@ -86,10 +82,6 @@ class ImportController extends AbstractController
         ]);
     }
 
-    /**
-     * @param int $setNumber
-     * @return Response
-     */
     #[Route(path: '/import/autoload/{setNumber}', name: 'import_autoload')]
     public function autoload(int $setNumber): Response
     {

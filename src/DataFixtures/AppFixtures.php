@@ -23,7 +23,6 @@ class AppFixtures extends Fixture
 
     /**
      * AppFixtures constructor.
-     * @param ManualService $manualService
      */
     public function __construct(
         private readonly ManualService $manualService,
@@ -31,7 +30,6 @@ class AppFixtures extends Fixture
     }
 
     /**
-     * @param ObjectManager $manager
      * @throws ImagickException
      * @throws PdfDoesNotExist
      */

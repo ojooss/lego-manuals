@@ -9,11 +9,6 @@ use RuntimeException;
 class DownloadService
 {
 
-    /**
-     * @param string $url
-     * @param string|null $filePath
-     * @return string
-     */
     public function downloadManualFile(string $url, ?string $filePath = null): string
     {
         $fileContent = file_get_contents($url);
@@ -39,7 +34,6 @@ class DownloadService
 
     /**
      * @param $unsafeFilename
-     * @return string
      */
     public function getSaveFilename($unsafeFilename): string
     {

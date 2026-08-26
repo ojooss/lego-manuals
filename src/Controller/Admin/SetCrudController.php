@@ -30,13 +30,13 @@ class SetCrudController extends AbstractCrudController
             IdField::new('id')
                 ->onlyOnIndex() // This will display the ID only on the index/list view
                 ->hideOnForm() // This will hide the ID on the form view
-                ->formatValue(function ($value) {
+                ->formatValue(function ($value): string {
                     return sprintf('%d', $value);
                 })
             ,
             NumberField::new('number')
                 ->setLabel('Nummer')
-                ->formatValue(function ($value) {
+                ->formatValue(function ($value): string {
                     return sprintf('%d', $value);
                 })
             ,

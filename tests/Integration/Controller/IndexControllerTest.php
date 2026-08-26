@@ -49,7 +49,7 @@ class IndexControllerTest extends WebTestCase
         // the title is only printed once per set (on its first manual), the
         // rest render an empty ".manual-title" placeholder
         $titles = array_values(array_filter($crawler->filter('.manual-title')->each(
-            static fn ($node) => trim($node->text()),
+            static fn ($node): string => trim($node->text()),
         )));
         $this->assertSame(['X-Wing 9493', 'Y-Wing 9495'], $titles);
 

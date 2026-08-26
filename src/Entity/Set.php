@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use App\Repository\SetRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -18,15 +19,15 @@ class Set implements Stringable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
-    #[ORM\Column(type: 'integer', unique: true, nullable: true)]
+    #[ORM\Column(type: Types::INTEGER, unique: true, nullable: true)]
     #[Assert\NotBlank(message: 'set.number.not_blank')]
     #[Assert\Positive(message: 'set.number.number')]
     private ?int $number = null;
 
-    #[ORM\Column(type: 'string', length: 255, unique: true, nullable: false)]
+    #[ORM\Column(type: Types::STRING, length: 255, unique: true, nullable: false)]
     #[Assert\NotBlank(message: 'set.name.not_blank')]
     private string $name;
 
@@ -41,35 +42,21 @@ class Set implements Stringable
         $this->manuals = new ArrayCollection();
     }
 
-    /**
-     * @return int|null
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int|null $id
-     * @return void
-     */
     public function setId(?int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return int|null
-     */
     public function getNumber(): ?int
     {
         return $this->number;
     }
 
-    /**
-     * @param int|null $number
-     * @return $this
-     */
     public function setNumber(?int $number): self
     {
         $this->number = $number;
@@ -77,18 +64,11 @@ class Set implements Stringable
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     * @return $this
-     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -99,9 +79,7 @@ class Set implements Stringable
     /**
      * Add manual
      *
-     * @param Manual $manual
      *
-     * @return Set
      */
     public function addManual(Manual $manual): self
     {
@@ -115,8 +93,6 @@ class Set implements Stringable
     /**
      * Remove manual
      *
-     * @param Manual $manual
-     * @return Set
      * @noinspection PhpUnused
      */
     public function removeManual(Manual $manual): self
@@ -136,9 +112,6 @@ class Set implements Stringable
         return $this->manuals;
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->getNumber().' '.$this->getName() . ' (' . count($this->manuals) . ' Dokumente)';

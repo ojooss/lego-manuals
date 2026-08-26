@@ -14,7 +14,6 @@ class IndexController extends AbstractController
 
     /**
      * IndexController constructor.
-     * @param EntityManagerInterface $entityManager
      */
     public function __construct(
         private readonly EntityManagerInterface $entityManager,

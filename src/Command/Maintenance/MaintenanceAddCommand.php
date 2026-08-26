@@ -21,9 +21,6 @@ class MaintenanceAddCommand extends Command
 {
     /**
      * MaintenanceDeleteCommand constructor.
-     * @param SetRepository $setRepository
-     * @param EntityManagerInterface $entityManager
-     * @param ManualService $manualService
      */
     public function __construct(
         private readonly SetRepository $setRepository,
@@ -42,11 +39,6 @@ class MaintenanceAddCommand extends Command
         ;
     }
 
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
