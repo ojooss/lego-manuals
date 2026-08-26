@@ -53,7 +53,7 @@ class SetRepository extends ServiceEntityRepository
      * @param string|null $name
      * @return bool
      */
-    public function doesAlreadyExist(string $number, string $name = null)
+    public function doesAlreadyExist(string $number, ?string $name = null)
     {
         $check = $this->findBy(['number' => $number]);
         if (!empty($check)) {

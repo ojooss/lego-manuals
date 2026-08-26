@@ -7,6 +7,7 @@ use App\Entity\Set;
 use App\Form\SetFormType;
 use App\Repository\SetRepository;
 use App\Service\ManualService;
+use App\Service\SetLookupService;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,9 +16,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Process\Exception\ProcessFailedException;
-use Symfony\Component\Process\Process;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ImportController extends AbstractController
@@ -31,6 +30,7 @@ class ImportController extends AbstractController
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly ManualService $manualService,
+        private readonly SetLookupService $setLookupService,
     ) {
     }
 
@@ -88,18 +88,13 @@ class ImportController extends AbstractController
 
     /**
      * @param int $setNumber
-     * @param KernelInterface $kernel
      * @return Response
      */
     #[Route(path: '/import/autoload/{setNumber}', name: 'import_autoload')]
-    public function autoload(int $setNumber, KernelInterface $kernel): Response
+    public function autoload(int $setNumber): Response
     {
         try {
-            $script = $kernel->getProjectDir() . '/try-to-get-pdf-urls.js';
-            $process = new Process(['node', $script, '--set', $setNumber]);
-            $process->mustRun();
-            $result = json_decode($process->getOutput(), true);
-            return new JsonResponse($result);
+            return new JsonResponse($this->setLookupService->lookup($setNumber));
         } catch (ProcessFailedException $exception) {
             throw new HttpException(Response::HTTP_INTERNAL_SERVER_ERROR, $exception->getMessage());
         }

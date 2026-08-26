@@ -47,6 +47,7 @@
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "phpstan/phpstan": "^1.10",
+        "phpunit/phpunit": "^13.2",
         "rector/rector": "^0.18.12",
         "symfony/browser-kit": "7.4.*",
         "symfony/css-selector": "7.4.*",
@@ -112,7 +113,8 @@
         ],
         "check-outdated": "composer outdated --direct",
         "phpstan": "vendor/bin/phpstan analyse --configuration phpstan.neon --memory-limit=-1",
-        "rector": "vendor/bin/rector process --clear-cache --dry-run"
+        "rector": "vendor/bin/rector process --clear-cache --dry-run",
+        "phpunit": "bin/phpunit"
     },
     "conflict": {
         "symfony/symfony": "*"
