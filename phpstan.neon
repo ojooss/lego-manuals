@@ -10,9 +10,3 @@ parameters:
     excludePaths:
         # Symfony-generated IDE helper stub, not part of application code.
         - config/reference.php
-    ignoreErrors:
-        -
-            # False positive: Doctrine\ORM\Mapping\Index is declared repeatable
-            # (Attribute::TARGET_CLASS | Attribute::IS_REPEATABLE).
-            message: '#Attribute class Doctrine\\ORM\\Mapping\\Index is not repeatable#'
-            path: src/Entity/Set.php
