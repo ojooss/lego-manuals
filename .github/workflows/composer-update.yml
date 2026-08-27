@@ -29,6 +29,12 @@ jobs:
         with:
           node-version: lts/*
 
+      - name: Install ghostscript and allow PDF reading in ImageMagick
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends ghostscript
+          sudo find /etc -type f -path "*ImageMagick*/policy.xml" -exec cp docker/ImageMagick-6-Policy.xml {} \;
+
       - name: Composer Update
         run: composer update --no-interaction --prefer-dist
 
