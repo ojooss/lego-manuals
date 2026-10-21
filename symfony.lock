@@ -12,14 +12,8 @@
         },
         "files": []
     },
-    "doctrine/cache": {
-        "version": "1.10.2"
-    },
     "doctrine/collections": {
         "version": "1.6.7"
-    },
-    "doctrine/common": {
-        "version": "3.0.2"
     },
     "doctrine/data-fixtures": {
         "version": "1.4.4"
@@ -400,9 +394,6 @@
         "version": "v1.20.0"
     },
     "symfony/polyfill-php73": {
-        "version": "v1.20.0"
-    },
-    "symfony/polyfill-php80": {
         "version": "v1.20.0"
     },
     "symfony/process": {
